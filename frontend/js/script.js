@@ -172,6 +172,9 @@ if (skillForm) {
 
 // ================= LOAD MESSAGES =================
 async function loadMessages() {
+    const container = document.getElementById("messages");
+    if (!container) return; // ✅ Only run on dashboard page
+
     const token = localStorage.getItem("token");
 
     if (!token) {
@@ -180,26 +183,28 @@ async function loadMessages() {
         return;
     }
 
-    const response = await fetch(`${BASE_URL}/api/contact`, {
-        headers: { "Authorization": token }
-    });
+    try {
+        const response = await fetch(`${BASE_URL}/api/contact`, {
+            headers: { "Authorization": token }
+        });
 
-    const data = await response.json();
+        const data = await response.json();
 
-    const container = document.getElementById("messages");
-    if (!container) return;
+        container.innerHTML = "";
 
-    container.innerHTML = "";
-
-    data.forEach(msg => {
-        const div = document.createElement("div");
-        div.innerHTML = `
-            <p><b>${msg.name}</b> (${msg.email})</p>
-            <p>${msg.message}</p>
-            <hr>
-        `;
-        container.appendChild(div);
-    });
+        data.forEach(msg => {
+            const div = document.createElement("div");
+            div.innerHTML = `
+                <p><b>${msg.name}</b> (${msg.email})</p>
+                <p>${msg.message}</p>
+                <hr>
+            `;
+            container.appendChild(div);
+        });
+    } catch (err) {
+        console.log("Error loading messages:", err);
+    }
 }
 
+// ✅ ONLY runs when messages element exists
 loadMessages();
