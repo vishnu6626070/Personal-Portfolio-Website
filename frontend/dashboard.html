@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Admin Dashboard</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="dashboard-page">
+
+<h1>Admin Dashboard</h1>
+
+<h2>Add Project</h2>
+
+<form id="projectForm">
+
+<input type="text" id="title" placeholder="Project Title" required><br><br>
+
+<input type="text" id="description" placeholder="Description" required><br><br>
+
+<input type="text" id="github" placeholder="GitHub Link"><br><br>
+
+<button type="submit">Add Project</button>
+
+</form>
+
+<hr>
+
+<h2>Add Skill</h2>
+
+<form id="skillForm">
+
+<input type="text" id="skillName" placeholder="Skill Name" required><br><br>
+
+<input type="number" id="skillLevel" placeholder="Skill Level %" required><br><br>
+
+<button type="submit">Add Skill</button>
+
+</form>
+
+<hr>
+
+<h2>Visitor Messages</h2>
+
+<div id="messages"></div>
+
+<script src="js/script.js"></script>
+
+</body>
+</html>

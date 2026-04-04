@@ -1,0 +1,778 @@
+body{
+font-family: Arial;
+margin:0;
+padding:0;
+}
+
+nav{
+display:flex;
+justify-content:space-between;
+background:#222;
+color:white;
+padding:15px;
+}
+
+nav ul{
+display:flex;
+list-style:none;
+}
+
+nav ul li{
+margin-left:20px;
+}
+
+nav ul li a{
+color:white;
+text-decoration:none;
+}
+
+section{
+padding:40px;
+}
+#projects div{
+border:1px solid #ddd;
+padding:15px;
+margin-bottom:15px;
+}
+#skills div{
+border:1px solid #ddd;
+padding:15px;
+margin-bottom:15px;
+}
+#dashboard div{
+border:1px solid #ddd;
+padding:15px;
+margin-bottom:15px;
+}
+body{
+    margin:0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: linear-gradient(135deg,#4facfe,#00f2fe);
+    height:100vh;
+}
+
+/* center the login box */
+.login-container{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+/* login card */
+.login-box{
+    background:white;
+    padding:40px;
+    border-radius:12px;
+    box-shadow:0px 10px 25px rgba(0,0,0,0.2);
+    width:300px;
+    text-align:center;
+}
+
+/* title */
+.login-box h1{
+    margin-bottom:20px;
+}
+
+/* inputs */
+.login-box input{
+    width:100%;
+    padding:12px;
+    margin:10px 0;
+    border-radius:6px;
+    border:1px solid #ccc;
+    font-size:16px;
+}
+
+/* input focus effect */
+.login-box input:focus{
+    outline:none;
+    border-color:#4facfe;
+    box-shadow:0 0 5px #4facfe;
+}
+
+/* button */
+.login-box button{
+    width:100%;
+    padding:12px;
+    border:none;
+    background:#4facfe;
+    color:white;
+    font-size:16px;
+    border-radius:6px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+/* hover effect */
+.login-box button:hover{
+    background:#2c8df0;
+}
+
+/* Dashboard Page Styling */
+
+.dashboard-page{
+min-height:100vh;
+display:flex;
+flex-direction:column;
+align-items:center;
+background:linear-gradient(135deg,#4facfe,#00f2fe);
+padding:40px;
+font-family:'Poppins',sans-serif;
+}
+
+/* Title */
+
+.dashboard-page h1{
+color:white;
+margin-bottom:30px;
+font-size:40px;
+text-shadow:0 5px 10px rgba(0,0,0,0.2);
+}
+
+/* Section titles */
+
+.dashboard-page h2{
+color:#333;
+margin-bottom:15px;
+}
+
+/* Forms */
+
+.dashboard-page form{
+width:350px;
+background:rgba(255,255,255,0.2);
+backdrop-filter:blur(12px);
+padding:25px;
+border-radius:15px;
+box-shadow:0 10px 25px rgba(0,0,0,0.2);
+margin-bottom:30px;
+transition:0.3s;
+}
+
+/* Hover animation */
+
+.dashboard-page form:hover{
+transform:translateY(-5px);
+}
+
+/* Inputs */
+
+.dashboard-page input{
+width:100%;
+padding:12px;
+border:none;
+outline:none;
+border-radius:8px;
+margin-bottom:10px;
+background:white;
+}
+
+/* Buttons */
+
+.dashboard-page button{
+width:100%;
+padding:12px;
+border:none;
+border-radius:8px;
+background:linear-gradient(135deg,#667eea,#764ba2);
+color:white;
+font-size:15px;
+cursor:pointer;
+transition:0.3s;
+}
+
+.dashboard-page button:hover{
+transform:scale(1.05);
+}
+
+/* Messages */
+
+.dashboard-page #messages{
+width:350px;
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* Divider */
+
+.dashboard-page hr{
+width:350px;
+margin:25px 0;
+border:none;
+height:2px;
+background:rgba(255,255,255,0.5);
+}
+/* CONTACT PAGE */
+
+.contact-page{
+min-height:100vh;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+background:linear-gradient(135deg,#667eea,#764ba2);
+font-family:'Poppins',sans-serif;
+padding:20px;
+}
+
+/* Title */
+
+.contact-page h1{
+color:white;
+font-size:40px;
+margin-bottom:30px;
+letter-spacing:1px;
+text-shadow:0 5px 15px rgba(0,0,0,0.3);
+animation:fadeDown 1s ease;
+}
+
+/* Form Card */
+
+.contact-page form{
+width:380px;
+background:white;
+padding:30px;
+border-radius:15px;
+box-shadow:0 15px 35px rgba(0,0,0,0.2);
+display:flex;
+flex-direction:column;
+animation:fadeUp 1s ease;
+}
+
+/* Labels */
+
+.contact-page h4{
+margin-top:10px;
+margin-bottom:5px;
+color:#333;
+font-weight:500;
+}
+
+/* Inputs */
+
+.contact-page input,
+.contact-page textarea{
+padding:12px;
+border:1px solid #ddd;
+border-radius:8px;
+outline:none;
+font-size:14px;
+margin-bottom:10px;
+transition:0.3s;
+}
+
+/* Input Focus */
+
+.contact-page input:focus,
+.contact-page textarea:focus{
+border-color:#667eea;
+box-shadow:0 0 5px rgba(102,126,234,0.5);
+}
+
+/* Textarea */
+
+.contact-page textarea{
+resize:none;
+height:120px;
+}
+
+/* Button */
+
+.contact-page button{
+margin-top:10px;
+padding:12px;
+border:none;
+border-radius:8px;
+background:linear-gradient(135deg,#667eea,#764ba2);
+color:white;
+font-size:15px;
+cursor:pointer;
+transition:0.3s;
+}
+
+/* Button Hover */
+
+.contact-page button:hover{
+transform:scale(1.05);
+box-shadow:0 10px 20px rgba(0,0,0,0.2);
+}
+
+/* Animations */
+
+@keyframes fadeDown{
+from{
+opacity:0;
+transform:translateY(-30px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+@keyframes fadeUp{
+from{
+opacity:0;
+transform:translateY(30px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+/* ================= HOME PAGE ================= */
+
+.home-page{
+margin:0;
+font-family:'Poppins',sans-serif;
+min-height:100vh;
+background:linear-gradient(120deg,#141e30,#243b55);
+color:white;
+}
+
+/* NAVBAR */
+
+.home-page nav{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 80px;
+background:rgba(0,0,0,0.3);
+backdrop-filter:blur(10px);
+box-shadow:0 5px 20px rgba(0,0,0,0.3);
+}
+
+/* Logo */
+
+.home-page nav h2{
+font-size:26px;
+letter-spacing:1px;
+color:#00e5ff;
+}
+
+/* Menu */
+
+.home-page nav ul{
+display:flex;
+gap:25px;
+list-style:none;
+}
+
+/* Links */
+
+.home-page nav ul li a{
+text-decoration:none;
+color:white;
+font-size:16px;
+padding:8px 15px;
+border-radius:20px;
+transition:0.3s;
+}
+
+/* Hover effect */
+
+.home-page nav ul li a:hover{
+background:#00e5ff;
+color:black;
+transform:scale(1.05);
+}
+
+/* HERO SECTION */
+
+.home-page section{
+height:80vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+animation:fadeUp 1.2s ease;
+}
+
+/* Main heading */
+
+.home-page section h1{
+font-size:60px;
+margin-bottom:15px;
+background:linear-gradient(90deg,#00e5ff,#ff00cc);
+-webkit-background-clip:text;
+color:transparent;
+}
+
+/* Subtitle */
+
+.home-page section p{
+font-size:20px;
+margin:8px 0;
+color:#ddd;
+}
+
+/* Animation */
+
+@keyframes fadeUp{
+from{
+opacity:0;
+transform:translateY(40px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+/* ===== PROJECTS PAGE ===== */
+
+/* ================= PROJECTS PAGE ================= */
+
+.projects-page{
+margin:0;
+min-height:100vh;
+font-family:'Poppins',sans-serif;
+background:linear-gradient(135deg,#141e30,#243b55);
+display:flex;
+flex-direction:column;
+align-items:center;
+padding:60px 20px;
+color:white;
+}
+
+/* Title */
+
+.projects-page h1{
+font-size:48px;
+margin-bottom:50px;
+letter-spacing:2px;
+background:linear-gradient(90deg,#00f5ff,#ff00cc);
+-webkit-background-clip:text;
+color:transparent;
+animation:slideDown 1s ease;
+}
+
+/* Projects Grid */
+
+.projects-page #projects{
+width:90%;
+max-width:1100px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:30px;
+}
+
+/* Project Card */
+
+.projects-page .project-card{
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(12px);
+border-radius:15px;
+padding:25px;
+transition:0.4s;
+box-shadow:0 10px 25px rgba(0,0,0,0.4);
+position:relative;
+overflow:hidden;
+}
+
+/* Glow effect */
+
+.projects-page .project-card::before{
+content:"";
+position:absolute;
+top:-50%;
+left:-50%;
+width:200%;
+height:200%;
+background:linear-gradient(
+120deg,
+transparent,
+rgba(255,255,255,0.25),
+transparent
+);
+transform:rotate(25deg);
+transition:0.6s;
+opacity:0;
+}
+
+/* Hover Animation */
+
+.projects-page .project-card:hover{
+transform:translateY(-10px) scale(1.03);
+box-shadow:0 20px 40px rgba(0,0,0,0.6);
+}
+
+.projects-page .project-card:hover::before{
+opacity:1;
+left:100%;
+}
+
+/* Project Title */
+
+.projects-page .project-card h3{
+margin-bottom:10px;
+font-size:22px;
+color:#00f5ff;
+}
+
+/* Description */
+
+.projects-page .project-card p{
+font-size:14px;
+color:#ddd;
+margin-bottom:20px;
+line-height:1.6;
+}
+
+/* ================= GITHUB BUTTON ================= */
+
+.projects-page .project-card a{
+position:relative;
+display:inline-block;
+padding:10px 24px;
+border-radius:30px;
+text-decoration:none;
+font-size:14px;
+font-weight:500;
+color:white;
+background:linear-gradient(90deg,#00f5ff,#ff00cc);
+overflow:hidden;
+transition:all 0.4s ease;
+box-shadow:0 0 10px rgba(0,245,255,0.6);
+}
+
+/* Shine animation */
+
+.projects-page .project-card a::before{
+content:"";
+position:absolute;
+top:0;
+left:-100%;
+width:100%;
+height:100%;
+background:linear-gradient(
+120deg,
+transparent,
+rgba(255,255,255,0.6),
+transparent
+);
+transition:0.6s;
+}
+
+/* Hover */
+
+.projects-page .project-card a:hover{
+transform:translateY(-3px) scale(1.08);
+box-shadow:0 0 20px rgba(255,0,204,0.9);
+}
+
+/* Shine move */
+
+.projects-page .project-card a:hover::before{
+left:100%;
+}
+
+/* ================= ANIMATIONS ================= */
+
+@keyframes slideDown{
+from{
+opacity:0;
+transform:translateY(-40px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+/* ================= LOGIN PAGE ================= */
+
+.login-page{
+margin:0;
+font-family:'Poppins',sans-serif;
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(135deg,#1d2671,#c33764);
+}
+
+/* Container */
+
+.login-page .login-container{
+display:flex;
+justify-content:center;
+align-items:center;
+width:100%;
+}
+
+/* Login Box */
+
+.login-page .login-box{
+background:white;
+padding:40px;
+width:350px;
+border-radius:15px;
+box-shadow:0 15px 35px rgba(0,0,0,0.3);
+display:flex;
+flex-direction:column;
+gap:15px;
+animation:fadeIn 1s ease;
+}
+
+/* Heading */
+
+.login-page .login-box h1{
+text-align:center;
+color:#333;
+margin-bottom:10px;
+}
+
+/* Inputs */
+
+.login-page .login-box input{
+padding:12px;
+border:1px solid #ddd;
+border-radius:8px;
+font-size:14px;
+outline:none;
+transition:0.3s;
+}
+
+/* Input focus */
+
+.login-page .login-box input:focus{
+border-color:#c33764;
+box-shadow:0 0 5px rgba(195,55,100,0.4);
+}
+
+/* Button */
+
+.login-page .login-box button{
+padding:12px;
+border:none;
+border-radius:8px;
+background:linear-gradient(135deg,#1d2671,#c33764);
+color:white;
+font-size:16px;
+cursor:pointer;
+transition:0.3s;
+}
+
+/* Button Hover */
+
+.login-page .login-box button:hover{
+transform:scale(1.05);
+box-shadow:0 10px 20px rgba(0,0,0,0.3);
+}
+
+/* Animation */
+
+@keyframes fadeIn{
+from{
+opacity:0;
+transform:translateY(30px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+/* ===== SKILLS PAGE ===== */
+
+.skills-page{
+margin:0;
+min-height:100vh;
+font-family:'Poppins',sans-serif;
+background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+color:white;
+display:flex;
+flex-direction:column;
+align-items:center;
+padding:50px 20px;
+}
+
+/* Title */
+
+.skills-page h1{
+font-size:45px;
+margin-bottom:40px;
+background:linear-gradient(90deg,#00f2fe,#4facfe);
+-webkit-background-clip:text;
+color:transparent;
+animation:fadeDown 1s ease;
+}
+
+/* Skills container */
+
+.skills-page #skills{
+width:80%;
+max-width:700px;
+display:flex;
+flex-direction:column;
+gap:25px;
+}
+
+/* Skill card */
+
+.skills-page .skill-card{
+background:rgba(255,255,255,0.08);
+padding:20px;
+border-radius:12px;
+backdrop-filter:blur(10px);
+box-shadow:0 10px 25px rgba(0,0,0,0.4);
+transition:0.3s;
+}
+
+/* Hover */
+
+.skills-page .skill-card:hover{
+transform:translateY(-5px);
+box-shadow:0 15px 35px rgba(0,0,0,0.6);
+}
+
+/* Skill title */
+
+.skills-page .skill-card h3{
+margin-bottom:10px;
+font-size:20px;
+}
+
+/* Progress bar background */
+
+.skills-page .progress-bar{
+width:100%;
+height:12px;
+background:#1e2a38;
+border-radius:10px;
+overflow:hidden;
+}
+
+/* Animated progress */
+
+.skills-page .progress{
+height:100%;
+background:linear-gradient(90deg,#00f2fe,#4facfe);
+width:0;
+border-radius:10px;
+animation:grow 2s forwards;
+}
+
+/* Animation */
+
+@keyframes grow{
+from{
+width:0;
+}
+to{
+width:var(--level);
+}
+}
+
+@keyframes fadeDown{
+from{
+opacity:0;
+transform:translateY(-30px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
