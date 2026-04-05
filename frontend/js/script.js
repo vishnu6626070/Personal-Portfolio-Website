@@ -1,5 +1,6 @@
 const BASE_URL = "https://personal-portfolio-website-ttkw.onrender.com";
 
+
 // ================= PROJECTS =================
 async function loadProjects() {
     try {
@@ -13,14 +14,18 @@ async function loadProjects() {
 
         projects.forEach(project => {
             const div = document.createElement("div");
+            div.className = "project-card";
+
             div.innerHTML = `
+                ${project.image ? `<img src="${project.image}" style="width:100%; border-radius:8px; margin-bottom:10px;">` : ""}
                 <h3>${project.title}</h3>
                 <p>${project.description}</p>
-                <a href="${project.github}" target="_blank">GitHub</a>
-                <hr>
+                <a href="${project.github}" target="_blank">View Project</a>
             `;
+
             container.appendChild(div);
         });
+
     } catch (err) {
         console.log("Error loading projects:", err);
     }
@@ -41,12 +46,18 @@ async function loadSkills() {
 
         skills.forEach(skill => {
             const div = document.createElement("div");
+            div.className = "skill-card";
+
             div.innerHTML = `
                 <h3>${skill.name}</h3>
-                <p>Level: ${skill.level}%</p>
+                <div class="progress-bar">
+                    <div class="progress" style="width:${skill.level}%"></div>
+                </div>
             `;
+
             container.appendChild(div);
         });
+
     } catch (err) {
         console.log("Error loading skills:", err);
     }
@@ -55,10 +66,10 @@ loadSkills();
 
 
 // ================= CONTACT =================
-const form = document.getElementById("contactForm");
+const contactForm = document.getElementById("contactForm");
 
-if (form) {
-    form.addEventListener("submit", async function (e) {
+if (contactForm) {
+    contactForm.addEventListener("submit", async function (e) {
         e.preventDefault();
 
         const name = document.getElementById("name").value;
@@ -72,7 +83,7 @@ if (form) {
         });
 
         alert("Message sent successfully!");
-        form.reset();
+        contactForm.reset();
     });
 }
 
@@ -120,6 +131,7 @@ if (projectForm) {
         const title = document.getElementById("title").value;
         const description = document.getElementById("description").value;
         const github = document.getElementById("github").value;
+        const image = document.getElementById("image").value;
 
         const response = await fetch(`${BASE_URL}/api/projects`, {
             method: "POST",
@@ -127,7 +139,7 @@ if (projectForm) {
                 "Content-Type": "application/json",
                 "Authorization": token
             },
-            body: JSON.stringify({ title, description, github })
+            body: JSON.stringify({ title, description, github, image })
         });
 
         if (response.ok) {
@@ -163,6 +175,7 @@ if (skillForm) {
 
         if (response.ok) {
             alert("Skill added!");
+            skillForm.reset();
         } else {
             alert("Error adding skill");
         }
@@ -170,10 +183,10 @@ if (skillForm) {
 }
 
 
-// ================= LOAD MESSAGES =================
+// ================= LOAD MESSAGES (UPDATED UI) =================
 async function loadMessages() {
     const container = document.getElementById("messages");
-    if (!container) return; // ✅ Only run on dashboard page
+    if (!container) return;
 
     const token = localStorage.getItem("token");
 
@@ -194,17 +207,20 @@ async function loadMessages() {
 
         data.forEach(msg => {
             const div = document.createElement("div");
+            div.className = "message-card";
+
             div.innerHTML = `
-                <p><b>${msg.name}</b> (${msg.email})</p>
+                <h3>${msg.name}</h3>
+                <span>${msg.email}</span>
                 <p>${msg.message}</p>
-                <hr>
             `;
+
             container.appendChild(div);
         });
+
     } catch (err) {
         console.log("Error loading messages:", err);
     }
 }
 
-// ✅ ONLY runs when messages element exists
 loadMessages();

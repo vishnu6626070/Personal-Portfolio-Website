@@ -1,21 +1,51 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>contact</title>
-        <link rel="stylesheet" href="css/style.css">
-    </head>
-    <body class="contact-page">
-        <h1>Contact me</h1>
-        <form id="contactForm">
-            <h4>Name: </h4>
-            <input type="text" id="name" placeholder="Your Name" required><br>
-            <h4>Email: </h4>
-            <input type="email" id="email" placeholder="Your Email" required><br>
-            <h4>Message: </h4>
-            <textarea id="message" placeholder="Your Message" required></textarea>
-            <button type="submit">Send message</button>
+<head>
+<title>Contact</title>
 
-        </form>
-        <script src="js/script.js"></script>
-    </body>
+<link rel="stylesheet" href="css/style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+</head>
+
+<body class="contact-page">
+
+<!-- NAVBAR -->
+<nav>
+  <h2>Vishnu Portfolio</h2>
+
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="projects.html">Projects</a></li>
+    <li><a href="skills.html">Skills</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="login.html">Admin</a></li>
+  </ul>
+</nav>
+
+<!-- CONTACT SECTION -->
+<section class="contact-section">
+
+  <form id="contactForm">
+
+    <h2>Contact Me</h2>   <!-- ⭐ moved inside -->
+
+    <label>Name</label>
+    <input type="text" id="name" placeholder="Your Name" required>
+
+    <label>Email</label>
+    <input type="email" id="email" placeholder="Your Email" required>
+
+    <label>Message</label>
+    <textarea id="message" placeholder="Your Message" required></textarea>
+
+    <button type="submit">Send Message</button>
+
+  </form>
+
+</section>
+
+<script src="js/script.js"></script>
+
+</body>
 </html>

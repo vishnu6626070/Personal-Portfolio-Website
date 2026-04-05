@@ -2,47 +2,79 @@
 <html>
 <head>
 <title>Admin Dashboard</title>
+
 <link rel="stylesheet" href="css/style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 </head>
 
 <body class="dashboard-page">
 
-<h1>Admin Dashboard</h1>
+<!-- NAVBAR -->
+<nav>
+  <h2>Admin Panel</h2>
 
-<h2>Add Project</h2>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="projects.html">Projects</a></li>
+    <li><a href="skills.html">Skills</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
 
-<form id="projectForm">
+<h1 class="page-title">Dashboard</h1>
 
-<input type="text" id="title" placeholder="Project Title" required><br><br>
+<!-- MAIN CONTAINER -->
+<div class="dashboard-container">
 
-<input type="text" id="description" placeholder="Description" required><br><br>
+  <!-- ADD PROJECT -->
+  <div class="dash-card">
+    <h2>Add Project</h2>
 
-<input type="text" id="github" placeholder="GitHub Link"><br><br>
+    <form id="projectForm">
 
-<button type="submit">Add Project</button>
+      <input type="text" id="title" placeholder="Project Title" required>
 
-</form>
+      <input type="text" id="description" placeholder="Short Description" required>
 
-<hr>
+      <input type="text" id="github" placeholder="GitHub Link">
 
-<h2>Add Skill</h2>
+      <input type="text" id="image" placeholder="Image URL (optional)">
 
-<form id="skillForm">
+      <button type="submit">Add Project</button>
 
-<input type="text" id="skillName" placeholder="Skill Name" required><br><br>
+    </form>
+  </div>
 
-<input type="number" id="skillLevel" placeholder="Skill Level %" required><br><br>
+  <!-- ADD SKILL -->
+  <div class="dash-card">
+    <h2>Add Skill</h2>
 
-<button type="submit">Add Skill</button>
+    <form id="skillForm">
 
-</form>
+      <input type="text" id="skillName" placeholder="Skill Name (e.g. Python)" required>
 
-<hr>
+      <input type="number" id="skillLevel" placeholder="Skill Level (0-100%)" required>
 
-<h2>Visitor Messages</h2>
+      <button type="submit">Add Skill</button>
 
-<div id="messages"></div>
+    </form>
+  </div>
 
+</div>
+
+<!-- MESSAGES -->
+<div class="messages-section">
+
+  <div class="messages-container">
+
+    <h2>Visitor Messages</h2>
+
+    <div id="messages" class="message-box"></div>
+
+  </div>
+
+</div>
 <script src="js/script.js"></script>
 
 </body>

@@ -1,14 +1,28 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <title>Admin Login</title>
     <link rel="stylesheet" href="css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
-<body>
+<body class="login-page">
 
-<div class="login-page">
+<!-- NAVBAR -->
+<nav>
+  <h2>Vishnu Portfolio</h2>
+
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="projects.html">Projects</a></li>
+    <li><a href="skills.html">Skills</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="login.html">Admin</a></li>
+  </ul>
+</nav>
+
+<!-- LOGIN SECTION -->
+<section class="login-section">
 
     <form id="loginForm" class="login-box">
 
@@ -16,13 +30,13 @@
 
         <input type="email" id="email" placeholder="Email" required>
 
-        <input type="password" id="password" placeholder="Password"  minlength="6" required>
+        <input type="password" id="password" placeholder="Password" minlength="6" required>
 
         <button type="submit">Login</button>
 
     </form>
 
-</div>
+</section>
 
 <script src="js/script.js"></script>
 
