@@ -1,6 +1,9 @@
 const BASE_URL = "https://personal-portfolio-website-ttkw.onrender.com";
 
-const token = localStorage.getItem("token");
+// ===== TOKEN HANDLER =====
+function getToken() {
+    return localStorage.getItem("token");
+}
 
 // ================= PROFILE =================
 async function loadProfile() {
@@ -26,6 +29,8 @@ loadProfile();
 
 // ================= UPDATE PROFILE =================
 async function updateProfile() {
+    if (!getToken()) return alert("Login required!");
+
     const name = document.getElementById("profileNameInput").value;
     const bio = document.getElementById("profileBioInput").value;
 
@@ -33,7 +38,7 @@ async function updateProfile() {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            Authorization: token
+            Authorization: getToken()
         },
         body: JSON.stringify({ name, bio })
     });
@@ -60,7 +65,7 @@ async function loadProjects() {
                 <p>${p.description}</p>
                 <a href="${p.github}" target="_blank">View Project</a>
 
-                ${token ? `
+                ${getToken() ? `
                 <div class="admin-btns">
                     <button onclick="editProject('${p._id}')">Edit</button>
                     <button onclick="deleteProject('${p._id}')">Delete</button>
@@ -81,11 +86,13 @@ if (projectForm) {
     projectForm.addEventListener("submit", async e => {
         e.preventDefault();
 
+        if (!getToken()) return alert("Login required!");
+
         await fetch(`${BASE_URL}/api/projects`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: token
+                Authorization: getToken()
             },
             body: JSON.stringify({
                 title: title.value,
@@ -103,9 +110,11 @@ if (projectForm) {
 
 // DELETE PROJECT
 async function deleteProject(id) {
+    if (!getToken()) return alert("Login required!");
+
     await fetch(`${BASE_URL}/api/projects/${id}`, {
         method: "DELETE",
-        headers: { Authorization: token }
+        headers: { Authorization: getToken() }
     });
 
     loadProjects();
@@ -113,6 +122,8 @@ async function deleteProject(id) {
 
 // EDIT PROJECT
 async function editProject(id) {
+    if (!getToken()) return alert("Login required!");
+
     const title = prompt("New title");
     const description = prompt("New description");
 
@@ -120,7 +131,7 @@ async function editProject(id) {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
-            Authorization: token
+            Authorization: getToken()
         },
         body: JSON.stringify({ title, description })
     });
@@ -147,7 +158,7 @@ async function loadSkills() {
                     <div class="progress" style="width:${s.level}%"></div>
                 </div>
 
-                ${token ? `
+                ${getToken() ? `
                 <div class="admin-btns">
                     <button onclick="editSkill('${s._id}')">Edit</button>
                     <button onclick="deleteSkill('${s._id}')">Delete</button>
@@ -168,11 +179,13 @@ if (skillForm) {
     skillForm.addEventListener("submit", async e => {
         e.preventDefault();
 
+        if (!getToken()) return alert("Login required!");
+
         await fetch(`${BASE_URL}/api/skills`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: token
+                Authorization: getToken()
             },
             body: JSON.stringify({
                 name: skillName.value,
@@ -188,9 +201,11 @@ if (skillForm) {
 
 // DELETE SKILL
 async function deleteSkill(id) {
+    if (!getToken()) return alert("Login required!");
+
     await fetch(`${BASE_URL}/api/skills/${id}`, {
         method: "DELETE",
-        headers: { Authorization: token }
+        headers: { Authorization: getToken() }
     });
 
     loadSkills();
@@ -198,6 +213,8 @@ async function deleteSkill(id) {
 
 // EDIT SKILL
 async function editSkill(id) {
+    if (!getToken()) return alert("Login required!");
+
     const name = prompt("Skill name");
     const level = prompt("Skill level");
 
@@ -205,7 +222,7 @@ async function editSkill(id) {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
-            Authorization: token
+            Authorization: getToken()
         },
         body: JSON.stringify({ name, level })
     });
@@ -253,10 +270,16 @@ if (loginForm) {
 
         const data = await res.json();
 
-        if (!data.token) return alert("Login failed");
+        if (!data.token) {
+            alert("Login failed ❌");
+            return;
+        }
 
         localStorage.setItem("token", data.token);
-        alert("Login success");
+
+        alert("Login success ✅");
+
+        // IMPORTANT FIX
         window.location.href = "dashboard.html";
     });
 }
@@ -272,8 +295,10 @@ async function loadMessages() {
     const container = document.getElementById("messages");
     if (!container) return;
 
+    if (!getToken()) return;
+
     const res = await fetch(`${BASE_URL}/api/messages`, {
-        headers: { Authorization: token }
+        headers: { Authorization: getToken() }
     });
 
     const data = await res.json();
@@ -295,9 +320,11 @@ loadMessages();
 
 // DELETE MESSAGE
 async function deleteMessage(id) {
+    if (!getToken()) return alert("Login required!");
+
     await fetch(`${BASE_URL}/api/messages/${id}`, {
         method: "DELETE",
-        headers: { Authorization: token }
+        headers: { Authorization: getToken() }
     });
 
     loadMessages();
