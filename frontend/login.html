@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Admin Login</title>
-
-<link rel="stylesheet" href="css/style.css">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login</title>
+    <link rel="stylesheet" href="css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body class="login-page">
@@ -17,7 +16,6 @@
     <li><a href="index.html">Home</a></li>
     <li><a href="projects.html">Projects</a></li>
     <li><a href="skills.html">Skills</a></li>
-    <li><a href="education.html">Education</a></li>
     <li><a href="contact.html">Contact</a></li>
     <li><a href="login.html">Admin</a></li>
   </ul>
@@ -26,34 +24,17 @@
 <!-- LOGIN SECTION -->
 <section class="login-section">
 
-  <form id="loginForm" class="login-box">
+    <form id="loginForm" class="login-box">
 
-    <h1>Admin Login</h1>
+        <h1>Admin Login</h1>
 
-    <!-- EMAIL -->
-    <input 
-      type="email" 
-      id="email" 
-      placeholder="Enter your email" 
-      required
-    >
+        <input type="email" id="email" placeholder="Email" required>
 
-    <!-- PASSWORD -->
-    <input 
-      type="password" 
-      id="password" 
-      placeholder="Enter your password" 
-      minlength="6" 
-      required
-    >
+        <input type="password" id="password" placeholder="Password" minlength="6" required>
 
-    <!-- LOGIN BUTTON -->
-    <button type="submit">Login</button>
+        <button type="submit">Login</button>
 
-    <!-- ERROR MESSAGE -->
-    <p id="loginError" style="color:red; margin-top:10px;"></p>
-
-  </form>
+    </form>
 
 </section>
 

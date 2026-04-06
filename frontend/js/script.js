@@ -1,355 +1,226 @@
 const BASE_URL = "https://personal-portfolio-website-ttkw.onrender.com";
 
-// ===== TOKEN FUNCTION =====
-function getToken() {
-    return localStorage.getItem("token");
-}
-
-// ===== PROTECT DASHBOARD =====
-if (window.location.pathname.includes("dashboard.html")) {
-    if (!getToken()) {
-        alert("Please login first 🔐");
-        window.location.href = "login.html";
-    }
-}
-
-// ================= PROFILE =================
-async function loadProfile() {
-    try {
-        const res = await fetch(`${BASE_URL}/api/profile`);
-        const data = await res.json();
-
-        if (document.getElementById("profileName")) {
-            document.getElementById("profileName").innerText =
-                "Hello, I'm " + (data?.name || "Vishnu");
-        }
-
-        if (document.getElementById("profileBio")) {
-            document.getElementById("profileBio").innerText =
-                data?.bio || "B.Tech Student";
-        }
-
-    } catch (err) {
-        console.log(err);
-    }
-}
-loadProfile();
-
-// ================= UPDATE PROFILE =================
-async function updateProfile() {
-    if (!getToken()) return alert("Login required!");
-
-    const name = document.getElementById("profileNameInput").value;
-    const bio = document.getElementById("profileBioInput").value;
-
-    const res = await fetch(`${BASE_URL}/api/profile`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: getToken()
-        },
-        body: JSON.stringify({ name, bio })
-    });
-
-    if (!res.ok) return alert("Update failed ❌");
-
-    alert("Profile updated ✅");
-}
 
 // ================= PROJECTS =================
 async function loadProjects() {
     try {
-        const res = await fetch(`${BASE_URL}/api/projects`);
-        const projects = await res.json();
+        const response = await fetch(`${BASE_URL}/api/projects`);
+        const projects = await response.json();
 
         const container = document.getElementById("projects");
         if (!container) return;
 
         container.innerHTML = "";
 
-        projects.forEach(p => {
-            container.innerHTML += `
-            <div class="project-card">
-                ${p.image ? `<img src="${p.image}" class="project-img">` : ""}
-                <h3>${p.title}</h3>
-                <p>${p.description}</p>
-                <a href="${p.github}" target="_blank">View Project</a>
+        projects.forEach(project => {
+            const div = document.createElement("div");
+            div.className = "project-card";
 
-                ${getToken() ? `
-                <div class="admin-btns">
-                    <button onclick="editProject('${p._id}')">Edit</button>
-                    <button onclick="deleteProject('${p._id}')">Delete</button>
-                </div>` : ""}
-            </div>`;
+            div.innerHTML = `
+                ${project.image ? `<img src="${project.image}" style="width:100%; border-radius:8px; margin-bottom:10px;">` : ""}
+                <h3>${project.title}</h3>
+                <p>${project.description}</p>
+                <a href="${project.github}" target="_blank">View Project</a>
+            `;
+
+            container.appendChild(div);
         });
 
     } catch (err) {
-        console.log(err);
+        console.log("Error loading projects:", err);
     }
 }
 loadProjects();
 
-// ADD PROJECT
-const projectForm = document.getElementById("projectForm");
-
-if (projectForm) {
-    projectForm.addEventListener("submit", async e => {
-        e.preventDefault();
-
-        if (!getToken()) return alert("Login required!");
-
-        const res = await fetch(`${BASE_URL}/api/projects`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: getToken()
-            },
-            body: JSON.stringify({
-                title: title.value,
-                description: description.value,
-                github: github.value,
-                image: image.value
-            })
-        });
-
-        if (!res.ok) return alert("Add failed ❌");
-
-        alert("Project added ✅");
-        projectForm.reset();
-        loadProjects();
-    });
-}
-
-// DELETE PROJECT
-async function deleteProject(id) {
-    if (!getToken()) return alert("Login required!");
-
-    const res = await fetch(`${BASE_URL}/api/projects/${id}`, {
-        method: "DELETE",
-        headers: { Authorization: getToken() }
-    });
-
-    if (!res.ok) return alert("Delete failed ❌");
-
-    alert("Deleted ✅");
-    loadProjects();
-}
-
-// EDIT PROJECT
-async function editProject(id) {
-    if (!getToken()) return alert("Login required!");
-
-    const title = prompt("New title");
-    const description = prompt("New description");
-
-    const res = await fetch(`${BASE_URL}/api/projects/${id}`, {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: getToken()
-        },
-        body: JSON.stringify({ title, description })
-    });
-
-    if (!res.ok) return alert("Update failed ❌");
-
-    alert("Updated ✅");
-    loadProjects();
-}
 
 // ================= SKILLS =================
 async function loadSkills() {
     try {
-        const res = await fetch(`${BASE_URL}/api/skills`);
-        const skills = await res.json();
+        const response = await fetch(`${BASE_URL}/api/skills`);
+        const skills = await response.json();
 
         const container = document.getElementById("skills");
         if (!container) return;
 
         container.innerHTML = "";
 
-        skills.forEach(s => {
-            container.innerHTML += `
-            <div class="skill-card">
-                <h3>${s.name}</h3>
-                <div class="progress-bar">
-                    <div class="progress" style="width:${s.level}%"></div>
-                </div>
+        skills.forEach(skill => {
+            const div = document.createElement("div");
+            div.className = "skill-card";
 
-                ${getToken() ? `
-                <div class="admin-btns">
-                    <button onclick="editSkill('${s._id}')">Edit</button>
-                    <button onclick="deleteSkill('${s._id}')">Delete</button>
-                </div>` : ""}
-            </div>`;
+            div.innerHTML = `
+                <h3>${skill.name}</h3>
+                <div class="progress-bar">
+                    <div class="progress" style="width:${skill.level}%"></div>
+                </div>
+            `;
+
+            container.appendChild(div);
         });
 
     } catch (err) {
-        console.log(err);
+        console.log("Error loading skills:", err);
     }
 }
 loadSkills();
 
-// ADD SKILL
-const skillForm = document.getElementById("skillForm");
-
-if (skillForm) {
-    skillForm.addEventListener("submit", async e => {
-        e.preventDefault();
-
-        if (!getToken()) return alert("Login required!");
-
-        const res = await fetch(`${BASE_URL}/api/skills`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: getToken()
-            },
-            body: JSON.stringify({
-                name: skillName.value,
-                level: skillLevel.value
-            })
-        });
-
-        if (!res.ok) return alert("Add failed ❌");
-
-        alert("Skill added ✅");
-        skillForm.reset();
-        loadSkills();
-    });
-}
-
-// DELETE SKILL
-async function deleteSkill(id) {
-    if (!getToken()) return alert("Login required!");
-
-    const res = await fetch(`${BASE_URL}/api/skills/${id}`, {
-        method: "DELETE",
-        headers: { Authorization: getToken() }
-    });
-
-    if (!res.ok) return alert("Delete failed ❌");
-
-    alert("Deleted ✅");
-    loadSkills();
-}
-
-// EDIT SKILL
-async function editSkill(id) {
-    if (!getToken()) return alert("Login required!");
-
-    const name = prompt("Skill name");
-    const level = prompt("Skill level");
-
-    const res = await fetch(`${BASE_URL}/api/skills/${id}`, {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: getToken()
-        },
-        body: JSON.stringify({ name, level })
-    });
-
-    if (!res.ok) return alert("Update failed ❌");
-
-    alert("Updated ✅");
-    loadSkills();
-}
 
 // ================= CONTACT =================
 const contactForm = document.getElementById("contactForm");
 
 if (contactForm) {
-    contactForm.addEventListener("submit", async e => {
+    contactForm.addEventListener("submit", async function (e) {
         e.preventDefault();
 
-        await fetch(`${BASE_URL}/api/messages`, {
+        const name = document.getElementById("name").value;
+        const email = document.getElementById("email").value;
+        const message = document.getElementById("message").value;
+
+        await fetch(`${BASE_URL}/api/contact`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                name: name.value,
-                email: email.value,
-                message: message.value
-            })
+            body: JSON.stringify({ name, email, message })
         });
 
-        alert("Message sent ✅");
+        alert("Message sent successfully!");
         contactForm.reset();
     });
 }
+
 
 // ================= LOGIN =================
 const loginForm = document.getElementById("loginForm");
 
 if (loginForm) {
-    loginForm.addEventListener("submit", async e => {
+    loginForm.addEventListener("submit", async function (e) {
         e.preventDefault();
 
-        const res = await fetch(`${BASE_URL}/api/auth/login`, {
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+
+        const response = await fetch(`${BASE_URL}/api/login`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                email: email.value,
-                password: password.value
-            })
+            body: JSON.stringify({ email, password })
         });
 
-        const data = await res.json();
+        const data = await response.json();
 
         if (!data.token) {
-            alert("Login failed ❌");
+            alert("Login failed");
             return;
         }
 
         localStorage.setItem("token", data.token);
 
-        alert("Login successful ✅");
+        alert("Login successful!");
         window.location.href = "dashboard.html";
     });
 }
 
-// ================= LOGOUT =================
-function logout() {
-    localStorage.removeItem("token");
-    window.location.href = "login.html";
+
+// ================= ADD PROJECT =================
+const projectForm = document.getElementById("projectForm");
+
+if (projectForm) {
+    projectForm.addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        const token = localStorage.getItem("token");
+
+        const title = document.getElementById("title").value;
+        const description = document.getElementById("description").value;
+        const github = document.getElementById("github").value;
+        const image = document.getElementById("image").value;
+
+        const response = await fetch(`${BASE_URL}/api/projects`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": token
+            },
+            body: JSON.stringify({ title, description, github, image })
+        });
+
+        if (response.ok) {
+            alert("Project added!");
+            projectForm.reset();
+        } else {
+            alert("Error adding project");
+        }
+    });
 }
 
-// ================= MESSAGES =================
+
+// ================= ADD SKILL =================
+const skillForm = document.getElementById("skillForm");
+
+if (skillForm) {
+    skillForm.addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        const token = localStorage.getItem("token");
+
+        const name = document.getElementById("skillName").value;
+        const level = document.getElementById("skillLevel").value;
+
+        const response = await fetch(`${BASE_URL}/api/skills`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": token
+            },
+            body: JSON.stringify({ name, level })
+        });
+
+        if (response.ok) {
+            alert("Skill added!");
+            skillForm.reset();
+        } else {
+            alert("Error adding skill");
+        }
+    });
+}
+
+
+// ================= LOAD MESSAGES (UPDATED UI) =================
 async function loadMessages() {
     const container = document.getElementById("messages");
     if (!container) return;
 
-    if (!getToken()) return;
+    const token = localStorage.getItem("token");
 
-    const res = await fetch(`${BASE_URL}/api/messages`, {
-        headers: { Authorization: getToken() }
-    });
+    if (!token) {
+        alert("Please login first");
+        window.location.href = "login.html";
+        return;
+    }
 
-    const data = await res.json();
+    try {
+        const response = await fetch(`${BASE_URL}/api/contact`, {
+            headers: { "Authorization": token }
+        });
 
-    container.innerHTML = "";
+        const data = await response.json();
 
-    data.forEach(m => {
-        container.innerHTML += `
-        <div class="message-card">
-            <h3>${m.name}</h3>
-            <span>${m.email}</span>
-            <p>${m.message}</p>
+        container.innerHTML = "";
 
-            <button onclick="deleteMessage('${m._id}')">Delete</button>
-        </div>`;
-    });
+        data.forEach(msg => {
+            const div = document.createElement("div");
+            div.className = "message-card";
+
+            div.innerHTML = `
+                <h3>${msg.name}</h3>
+                <span>${msg.email}</span>
+                <p>${msg.message}</p>
+            `;
+
+            container.appendChild(div);
+        });
+
+    } catch (err) {
+        console.log("Error loading messages:", err);
+    }
 }
+
 loadMessages();
-
-// DELETE MESSAGE
-async function deleteMessage(id) {
-    if (!getToken()) return alert("Login required!");
-
-    await fetch(`${BASE_URL}/api/messages/${id}`, {
-        method: "DELETE",
-        headers: { Authorization: getToken() }
-    });
-
-    loadMessages();
-}

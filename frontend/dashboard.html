@@ -5,6 +5,7 @@
 
 <link rel="stylesheet" href="css/style.css">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 </head>
 
 <body class="dashboard-page">
@@ -23,34 +24,25 @@
 
 <h1 class="page-title">Dashboard</h1>
 
-<!-- LOGOUT -->
-<div style="text-align:center; margin-bottom:20px;">
-  <button onclick="logout()">Logout</button>
-</div>
-
-<!-- MAIN GRID -->
+<!-- MAIN CONTAINER -->
 <div class="dashboard-container">
-
-  <!-- PROFILE UPDATE -->
-  <div class="dash-card">
-    <h2>Update Profile</h2>
-
-    <input type="text" id="profileNameInput" placeholder="Your Name">
-    <input type="text" id="profileBioInput" placeholder="Your Bio">
-
-    <button onclick="updateProfile()">Save Profile</button>
-  </div>
 
   <!-- ADD PROJECT -->
   <div class="dash-card">
     <h2>Add Project</h2>
 
     <form id="projectForm">
+
       <input type="text" id="title" placeholder="Project Title" required>
+
       <input type="text" id="description" placeholder="Short Description" required>
+
       <input type="text" id="github" placeholder="GitHub Link">
+
       <input type="text" id="image" placeholder="Image URL (optional)">
+
       <button type="submit">Add Project</button>
+
     </form>
   </div>
 
@@ -59,9 +51,13 @@
     <h2>Add Skill</h2>
 
     <form id="skillForm">
-      <input type="text" id="skillName" placeholder="Skill Name" required>
-      <input type="number" id="skillLevel" placeholder="Skill Level %" required>
+
+      <input type="text" id="skillName" placeholder="Skill Name (e.g. Python)" required>
+
+      <input type="number" id="skillLevel" placeholder="Skill Level (0-100%)" required>
+
       <button type="submit">Add Skill</button>
+
     </form>
   </div>
 
@@ -79,7 +75,6 @@
   </div>
 
 </div>
-
 <script src="js/script.js"></script>
 
 </body>

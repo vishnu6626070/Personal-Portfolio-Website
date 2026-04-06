@@ -1,34 +1,21 @@
-const Skill = require("../models/Skill");
-
-exports.get = async (req, res) => {
-    try {
-        res.json(await Skill.find());
-    } catch {
-        res.status(500).json({ msg: "Error fetching skills" });
+const Skill=require("../models/Skill");
+exports.addSkill=async(req,res)=>{
+    try{
+        const skill=new Skill(req.body);
+        await skill.save();
+        res.json(skill);
+    }catch(error){
+        res.status(500).json({error:error.message});
     }
-};
 
-exports.add = async (req, res) => {
-    try {
-        res.json(await Skill.create(req.body));
-    } catch {
-        res.status(500).json({ msg: "Error adding skill" });
-    }
-};
+}
+exports.getSkills=async(req,res)=>{
+    try{
+        const skills=await Skill.find();
+        res.json(skills);
 
-exports.update = async (req, res) => {
-    try {
-        res.json(await Skill.findByIdAndUpdate(req.params.id, req.body, { new: true }));
-    } catch {
-        res.status(500).json({ msg: "Error updating skill" });
-    }
-};
 
-exports.delete = async (req, res) => {
-    try {
-        await Skill.findByIdAndDelete(req.params.id);
-        res.json({ msg: "Deleted" });
-    } catch {
-        res.status(500).json({ msg: "Error deleting skill" });
+    }catch(error){
+        res.status(500).json({error:error.message});
     }
-};
+}

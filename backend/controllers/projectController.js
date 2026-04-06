@@ -1,41 +1,23 @@
-const Project = require("../models/Project");
-
-exports.get = async (req, res) => {
-    try {
-        const data = await Project.find().sort({ createdAt: -1 });
-        res.json(data);
-    } catch (error) {
-        res.status(500).json({ msg: "Error fetching projects" });
-    }
-};
-
-exports.add = async (req, res) => {
-    try {
-        const project = await Project.create(req.body);
+const Project=require("../models/Project");
+// add project
+exports.addProject=async(req,res)=>{
+    try{
+        const project=new Project(req.body);
+        await project.save();
         res.json(project);
-    } catch (error) {
-        res.status(500).json({ msg: "Error adding project" });
     }
-};
+    catch(error){
+        res.status(500).json({error:error.message});
+    }
 
-exports.update = async (req, res) => {
-    try {
-        const updated = await Project.findByIdAndUpdate(
-            req.params.id,
-            req.body,
-            { new: true }
-        );
-        res.json(updated);
-    } catch (error) {
-        res.status(500).json({ msg: "Error updating project" });
+}
+//get all projects
+exports.getProjects=async(req,res)=>{
+    try{
+        const projects= await Project.find();
+        res.json(projects);
+    }catch(error){
+        res.status(500).json({error:error.message});
     }
-};
+}
 
-exports.delete = async (req, res) => {
-    try {
-        await Project.findByIdAndDelete(req.params.id);
-        res.json({ msg: "Deleted" });
-    } catch (error) {
-        res.status(500).json({ msg: "Error deleting project" });
-    }
-};
