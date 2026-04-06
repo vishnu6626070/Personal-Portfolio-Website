@@ -1,8 +1,16 @@
 const BASE_URL = "https://personal-portfolio-website-ttkw.onrender.com";
 
-// ===== TOKEN HANDLER =====
+// ===== TOKEN FUNCTION =====
 function getToken() {
     return localStorage.getItem("token");
+}
+
+// ===== PROTECT DASHBOARD =====
+if (window.location.pathname.includes("dashboard.html")) {
+    if (!getToken()) {
+        alert("Please login first 🔐");
+        window.location.href = "login.html";
+    }
 }
 
 // ================= PROFILE =================
@@ -22,7 +30,7 @@ async function loadProfile() {
         }
 
     } catch (err) {
-        console.log("Profile error:", err);
+        console.log(err);
     }
 }
 loadProfile();
@@ -34,7 +42,7 @@ async function updateProfile() {
     const name = document.getElementById("profileNameInput").value;
     const bio = document.getElementById("profileBioInput").value;
 
-    await fetch(`${BASE_URL}/api/profile`, {
+    const res = await fetch(`${BASE_URL}/api/profile`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -43,7 +51,9 @@ async function updateProfile() {
         body: JSON.stringify({ name, bio })
     });
 
-    alert("Profile updated!");
+    if (!res.ok) return alert("Update failed ❌");
+
+    alert("Profile updated ✅");
 }
 
 // ================= PROJECTS =================
@@ -88,7 +98,7 @@ if (projectForm) {
 
         if (!getToken()) return alert("Login required!");
 
-        await fetch(`${BASE_URL}/api/projects`, {
+        const res = await fetch(`${BASE_URL}/api/projects`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -102,7 +112,9 @@ if (projectForm) {
             })
         });
 
-        alert("Project added!");
+        if (!res.ok) return alert("Add failed ❌");
+
+        alert("Project added ✅");
         projectForm.reset();
         loadProjects();
     });
@@ -112,11 +124,14 @@ if (projectForm) {
 async function deleteProject(id) {
     if (!getToken()) return alert("Login required!");
 
-    await fetch(`${BASE_URL}/api/projects/${id}`, {
+    const res = await fetch(`${BASE_URL}/api/projects/${id}`, {
         method: "DELETE",
         headers: { Authorization: getToken() }
     });
 
+    if (!res.ok) return alert("Delete failed ❌");
+
+    alert("Deleted ✅");
     loadProjects();
 }
 
@@ -127,7 +142,7 @@ async function editProject(id) {
     const title = prompt("New title");
     const description = prompt("New description");
 
-    await fetch(`${BASE_URL}/api/projects/${id}`, {
+    const res = await fetch(`${BASE_URL}/api/projects/${id}`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
@@ -136,6 +151,9 @@ async function editProject(id) {
         body: JSON.stringify({ title, description })
     });
 
+    if (!res.ok) return alert("Update failed ❌");
+
+    alert("Updated ✅");
     loadProjects();
 }
 
@@ -181,7 +199,7 @@ if (skillForm) {
 
         if (!getToken()) return alert("Login required!");
 
-        await fetch(`${BASE_URL}/api/skills`, {
+        const res = await fetch(`${BASE_URL}/api/skills`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -193,7 +211,9 @@ if (skillForm) {
             })
         });
 
-        alert("Skill added!");
+        if (!res.ok) return alert("Add failed ❌");
+
+        alert("Skill added ✅");
         skillForm.reset();
         loadSkills();
     });
@@ -203,11 +223,14 @@ if (skillForm) {
 async function deleteSkill(id) {
     if (!getToken()) return alert("Login required!");
 
-    await fetch(`${BASE_URL}/api/skills/${id}`, {
+    const res = await fetch(`${BASE_URL}/api/skills/${id}`, {
         method: "DELETE",
         headers: { Authorization: getToken() }
     });
 
+    if (!res.ok) return alert("Delete failed ❌");
+
+    alert("Deleted ✅");
     loadSkills();
 }
 
@@ -218,7 +241,7 @@ async function editSkill(id) {
     const name = prompt("Skill name");
     const level = prompt("Skill level");
 
-    await fetch(`${BASE_URL}/api/skills/${id}`, {
+    const res = await fetch(`${BASE_URL}/api/skills/${id}`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
@@ -227,6 +250,9 @@ async function editSkill(id) {
         body: JSON.stringify({ name, level })
     });
 
+    if (!res.ok) return alert("Update failed ❌");
+
+    alert("Updated ✅");
     loadSkills();
 }
 
@@ -247,7 +273,7 @@ if (contactForm) {
             })
         });
 
-        alert("Message sent!");
+        alert("Message sent ✅");
         contactForm.reset();
     });
 }
@@ -277,9 +303,7 @@ if (loginForm) {
 
         localStorage.setItem("token", data.token);
 
-        alert("Login success ✅");
-
-        // IMPORTANT FIX
+        alert("Login successful ✅");
         window.location.href = "dashboard.html";
     });
 }
