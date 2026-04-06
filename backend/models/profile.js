@@ -1,10 +1,8 @@
 const mongoose=require("mongoose");
 
 const schema=new mongoose.Schema({
- email:String,
- password:String,
  name:String,
  bio:String
 });
 
-module.exports=mongoose.model("User",schema);
+module.exports=mongoose.model("Profile",schema);

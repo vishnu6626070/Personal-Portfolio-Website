@@ -1,20 +1,14 @@
-const jwt=require("jsonwebtoken")
-const authMiddleware = (req, res, next) => {
-    const token=req.headers.authorization
-    if (!token) {
-    return res.status(401).json({ message: "No token provided" })
-    }
-    try{
-        const decoded=jwt.verify(token,"secretkey")
-        req.user=decoded
-        next()
-    }catch (error) {
+const jwt=require("jsonwebtoken");
 
-        res.status(401).json({ message: "Invalid token" })
+module.exports=(req,res,next)=>{
+ const token=req.headers.authorization;
+ if(!token)return res.status(401).json({msg:"No token"});
 
-    }
-    
-
-
+ try{
+  const decoded=jwt.verify(token,process.env.JWT_SECRET);
+  req.user=decoded;
+  next();
+ }catch{
+  res.status(401).json({msg:"Invalid token"});
+ }
 }
-module.exports = authMiddleware

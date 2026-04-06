@@ -1,18 +1,14 @@
-const Message=require("../models/Message")
-exports.sendMessage=async(req,res)=>{
-    try {
-        const message = new Message(req.body)
-        await message.save()
-        res.json({ message: "Message saved successfully" })
-    } catch (error) {
-        res.status(500).json({ error: error.message })
-    }
-}
-exports.getMessages = async (req, res) => {
-    try {
-        const messages = await Message.find()
-        res.json(messages)
-    } catch (error) {
-        res.status(500).json({ error: error.message })
-    }
-}
+const Message=require("../models/Message");
+
+exports.get=async(req,res)=>{
+ res.json(await Message.find().sort({createdAt:-1}));
+};
+
+exports.add=async(req,res)=>{
+ res.json(await Message.create(req.body));
+};
+
+exports.delete=async(req,res)=>{
+ await Message.findByIdAndDelete(req.params.id);
+ res.json({msg:"Deleted"});
+};

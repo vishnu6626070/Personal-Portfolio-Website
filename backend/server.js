@@ -1,33 +1,21 @@
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-const connectDB = require("./config/db");
-const projectRoutes = require("./routes/projectRoutes");
-const skillRoutes = require("./routes/skillRoutes");
-const messageRoutes = require("./routes/messageRoutes");
-const authRoutes = require("./routes/authRoutes");
-
-const PORT = process.env.PORT || 5000;
+const mongoose = require("mongoose");
 
 const app = express();
 
 app.use(express.json());
 app.use(cors());
 
-app.use("/api/projects", projectRoutes);
-app.use("/api/skills", skillRoutes);
-app.use("/api/contact", messageRoutes);
-app.use("/api", authRoutes);
+mongoose.connect(process.env.MONGO_URI)
+.then(()=>console.log("MongoDB connected ✅"))
+.catch(err=>console.log(err));
 
-app.get("/", (req, res) => {
-  res.send("Portfolio API running");
-});
+app.use("/api/projects", require("./routes/projectRoutes"));
+app.use("/api/skills", require("./routes/skillRoutes"));
+app.use("/api/messages", require("./routes/messageRoutes"));
+app.use("/api/profile", require("./routes/profileRoutes"));
+app.use("/api/auth", require("./routes/authRoutes"));
 
-const startServer = async () => {
-  await connectDB();
-
-  app.listen(PORT, () => {   
-    console.log(`Server is running on port ${PORT}`);
-  });
-};
-
-startServer();
+app.listen(process.env.PORT, ()=>console.log("Server running 🚀"));

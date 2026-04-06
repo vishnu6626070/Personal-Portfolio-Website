@@ -1,7 +1,10 @@
-const express =require("express");
-const router=express.Router();
-const {addSkill,getSkills}=require("../controllers/skillController");
-const authMiddleware = require("../middleware/authMiddleware")
-router.post('/',authMiddleware,addSkill);
-router.get('/',getSkills);
+const router=require("express").Router();
+const c=require("../controllers/skillController");
+const auth=require("../middleware/authMiddleware");
+
+router.get("/",c.get);
+router.post("/",auth,c.add);
+router.put("/:id",auth,c.update);
+router.delete("/:id",auth,c.delete);
+
 module.exports=router;

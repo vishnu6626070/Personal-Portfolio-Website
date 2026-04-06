@@ -1,21 +1,18 @@
 const Skill=require("../models/Skill");
-exports.addSkill=async(req,res)=>{
-    try{
-        const skill=new Skill(req.body);
-        await skill.save();
-        res.json(skill);
-    }catch(error){
-        res.status(500).json({error:error.message});
-    }
 
-}
-exports.getSkills=async(req,res)=>{
-    try{
-        const skills=await Skill.find();
-        res.json(skills);
+exports.get=async(req,res)=>{
+ res.json(await Skill.find());
+};
 
+exports.add=async(req,res)=>{
+ res.json(await Skill.create(req.body));
+};
 
-    }catch(error){
-        res.status(500).json({error:error.message});
-    }
-}
+exports.update=async(req,res)=>{
+ res.json(await Skill.findByIdAndUpdate(req.params.id,req.body,{new:true}));
+};
+
+exports.delete=async(req,res)=>{
+ await Skill.findByIdAndDelete(req.params.id);
+ res.json({msg:"Deleted"});
+};
