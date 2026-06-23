@@ -1,46 +1,77 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Vishnu Portfolio</title>
-
-<link rel="stylesheet" href="css/style.css">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vishnu Portfolio | Home</title>
+  <!-- Google Fonts & FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body class="home-page">
 
-<nav>
-  <h2>Vishnu Portfolio</h2>
+  <!-- NAVBAR -->
+  <nav>
+    <h2>Vishnu Portfolio</h2>
+    <ul>
+      <li class="active"><a href="index.html">Home</a></li>
+      <li><a href="projects.html">Projects</a></li>
+      <li><a href="skills.html">Skills</a></li>
+      <li><a href="certifications.html">Certifications</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="login.html" class="admin-nav-btn">Admin</a></li>
+    </ul>
+  </nav>
 
-  <ul>
-    <li><a href="index.html">Home</a></li>
-    <li><a href="projects.html">Projects</a></li>
-    <li><a href="skills.html">Skills</a></li>
-    <li><a href="contact.html">Contact</a></li>
-    <li><a href="login.html">Admin</a></li>
-  </ul>
-</nav>
+  <!-- HERO SECTION -->
+  <section>
+    <div class="home-page-container">
+      
+      <!-- HERO CONTENT -->
+      <div class="hero-content">
+        <div class="visitor-badge">
+          <span class="pulse-dot"></span>
+          <span>Views: <strong id="visit-count">0</strong></span>
+        </div>
+        
+        <h1>Hello, I'm <br><span id="profile-name" class="gradient-text">ANNAPUREDDY VISHNUVARDHAN REDDY</span></h1>
+        <p id="profile-title" class="hero-subtitle">B.Tech Data Science Student</p>
+        <p id="profile-bio" class="hero-bio">
+          I build data analysis, machine learning models, and full-stack web development projects.
+        </p>
+        
+        <div class="btn-group">
+          <a href="projects.html" class="main-btn">View My Work <i class="fas fa-arrow-right" style="margin-left: 8px;"></i></a>
+          <a id="resume-btn" href="#" target="_blank" class="secondary-btn"><i class="fas fa-file-download" style="margin-right: 8px;"></i> Download Resume</a>
+        </div>
+        
+        <!-- SOCIAL LINKS -->
+        <div class="social-links">
+          <a id="github-link" href="#" target="_blank" class="social-icon" title="GitHub"><i class="fab fa-github"></i></a>
+          <a id="linkedin-link" href="#" target="_blank" class="social-icon" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+          <a id="email-link" href="#" class="social-icon" title="Email"><i class="fas fa-envelope"></i></a>
+        </div>
+      </div>
+      
+      <!-- HERO IMAGE -->
+      <div class="hero-image-wrapper">
+        <div class="image-glow-ring">
+          <img id="profile-image" src="images/profiler.jfif" alt="ANNAPUREDDY VISHNUVARDHAN REDDY">
+        </div>
+      </div>
+      
+    </div>
+    
+    <!-- ABOUT BOX -->
+    <div class="about-section-box">
+      <h3>About Me</h3>
+      <p id="profile-about">
+        Currently pursuing B.Tech in Data Science at Aditya University. Passionate about machine learning, statistical modeling, and full-stack web development.
+      </p>
+    </div>
+  </section>
 
-<section>
-
-  <!-- Profile Image -->
-  <img src="images/profiler.jfif" alt="Profile" class="profile-img">
-
-  <!-- Animated Text -->
-  <h1 class="fade-text">Hello, I'm Vishnu</h1>
-
-  <p class="fade-text delay1">B.Tech Data Science Student</p>
-
-  <p class="fade-text delay2">
-    I build data analysis and web development projects.
-  </p>
-
-  <a href="projects.html" class="main-btn fade-text delay3">View My Work</a>
-
-</section>
-
-<script src="js/script.js"></script>
-
+  <!-- JS SCRIPT -->
+  <script src="js/script.js"></script>
 </body>
 </html>

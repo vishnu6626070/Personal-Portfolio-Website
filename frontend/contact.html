@@ -1,51 +1,97 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Contact</title>
-
-<link rel="stylesheet" href="css/style.css">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vishnu Portfolio | Contact</title>
+  <!-- Google Fonts & FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body class="contact-page">
 
-<!-- NAVBAR -->
-<nav>
-  <h2>Vishnu Portfolio</h2>
+  <!-- NAVBAR -->
+  <nav>
+    <h2>Vishnu Portfolio</h2>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="projects.html">Projects</a></li>
+      <li><a href="skills.html">Skills</a></li>
+      <li><a href="certifications.html">Certifications</a></li>
+      <li class="active"><a href="contact.html">Contact</a></li>
+      <li><a href="login.html" class="admin-nav-btn">Admin</a></li>
+    </ul>
+  </nav>
 
-  <ul>
-    <li><a href="index.html">Home</a></li>
-    <li><a href="projects.html">Projects</a></li>
-    <li><a href="skills.html">Skills</a></li>
-    <li><a href="contact.html">Contact</a></li>
-    <li><a href="login.html">Admin</a></li>
-  </ul>
-</nav>
+  <!-- CONTACT SECTION -->
+  <section>
+    <div class="contact-wrapper">
+      
+      <!-- CONTACT INFO COLUMN -->
+      <div class="contact-info">
+        <h3>Let's Connect</h3>
+        <p>
+          I'm always open to discussing data science opportunities, machine learning collaborations, web projects, or statistical consulting. Feel free to reach out!
+        </p>
+        
+        <div class="contact-details">
+          <div class="contact-detail-card">
+            <div class="detail-icon"><i class="fas fa-map-marker-alt"></i></div>
+            <div class="detail-text">
+              <h4>Location</h4>
+              <p>Aditya University, Kakinada, AP, India</p>
+            </div>
+          </div>
 
-<!-- CONTACT SECTION -->
-<section class="contact-section">
+          <div class="contact-detail-card">
+            <div class="detail-icon"><i class="fas fa-envelope"></i></div>
+            <div class="detail-text">
+              <h4>Direct Email</h4>
+              <p id="contact-email-txt">Loading...</p>
+            </div>
+          </div>
 
-  <form id="contactForm">
+          <div class="contact-detail-card">
+            <div class="detail-icon"><i class="fas fa-user-graduate"></i></div>
+            <div class="detail-text">
+              <h4>Department</h4>
+              <p>B.Tech Data Science (Undergraduate)</p>
+            </div>
+          </div>
+        </div>
 
-    <h2>Contact Me</h2>   <!-- ⭐ moved inside -->
+        <div class="social-links" style="margin-top: 15px;">
+          <a id="contact-github" href="#" target="_blank" class="social-icon"><i class="fab fa-github"></i></a>
+          <a id="contact-linkedin" href="#" target="_blank" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+      </div>
 
-    <label>Name</label>
-    <input type="text" id="name" placeholder="Your Name" required>
+      <!-- CONTACT FORM COLUMN -->
+      <div class="contact-form-glass">
+        <h3>Send a Message</h3>
+        <form id="contactForm">
+          <div class="form-group">
+            <label for="name">Your Name</label>
+            <input type="text" id="name" placeholder="John Doe" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" placeholder="john@example.com" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="message">Your Message</label>
+            <textarea id="message" rows="5" placeholder="Hey Vishnu, I'd like to collaborate on..." required></textarea>
+          </div>
 
-    <label>Email</label>
-    <input type="email" id="email" placeholder="Your Email" required>
+          <button type="submit">Submit Message <i class="fas fa-paper-plane" style="margin-left: 8px;"></i></button>
+        </form>
+      </div>
 
-    <label>Message</label>
-    <textarea id="message" placeholder="Your Message" required></textarea>
+    </div>
+  </section>
 
-    <button type="submit">Send Message</button>
-
-  </form>
-
-</section>
-
-<script src="js/script.js"></script>
-
+  <script src="js/script.js"></script>
 </body>
 </html>

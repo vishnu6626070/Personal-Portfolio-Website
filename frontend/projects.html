@@ -1,39 +1,53 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Projects</title>
-
-<link rel="stylesheet" href="css/style.css">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vishnu Portfolio | Projects</title>
+  <!-- Google Fonts & FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body class="projects-page">
 
-<nav>
-  <h2>Vishnu Portfolio</h2>
-  <ul>
-    <li><a href="index.html">Home</a></li>
-    <li><a href="projects.html">Projects</a></li>
-    <li><a href="skills.html">Skills</a></li>
-    <li><a href="contact.html">Contact</a></li>
-    <li><a href="login.html">Admin</a></li>
-  </ul>
-</nav>
+  <!-- NAVBAR -->
+  <nav>
+    <h2>Vishnu Portfolio</h2>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li class="active"><a href="projects.html">Projects</a></li>
+      <li><a href="skills.html">Skills</a></li>
+      <li><a href="certifications.html">Certifications</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="login.html" class="admin-nav-btn">Admin</a></li>
+    </ul>
+  </nav>
 
-<div class="projects-section">
+  <!-- PROJECTS SECTION -->
+  <section>
+    <div class="section-header">
+      <h2>My Portfolio Projects</h2>
+      <p>A selection of Machine Learning models, Data Science analysis, and Web Applications I've built.</p>
+    </div>
 
-  <div class="projects-box">
+    <!-- CATEGORY FILTERS -->
+    <div class="filter-container">
+      <button class="filter-btn active" data-category="All">All Projects</button>
+      <button class="filter-btn" data-category="Machine Learning">Machine Learning</button>
+      <button class="filter-btn" data-category="Data Analytics">Data Analytics</button>
+      <button class="filter-btn" data-category="Web Development">Web Development</button>
+    </div>
 
-    <h2>My Projects</h2>
+    <!-- GRID OF PROJECTS -->
+    <div id="projects" class="projects-grid">
+      <!-- Loaded dynamically via JavaScript -->
+      <div style="text-align: center; grid-column: 1/-1; padding: 40px; color: var(--text-secondary);">
+        <i class="fas fa-spinner fa-spin" style="font-size: 2rem; margin-bottom: 10px;"></i>
+        <p>Loading projects...</p>
+      </div>
+    </div>
+  </section>
 
-    <div id="projects" class="projects-container"></div>
-
-  </div>
-
-</div>
-
-<script src="js/script.js"></script>
-
+  <script src="js/script.js"></script>
 </body>
 </html>

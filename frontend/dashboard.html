@@ -1,81 +1,453 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Admin Dashboard</title>
-
-<link rel="stylesheet" href="css/style.css">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard | Portfolio Manager</title>
+  <!-- Google Fonts & FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body class="dashboard-page">
 
-<!-- NAVBAR -->
-<nav>
-  <h2>Admin Panel</h2>
+  <!-- NAVBAR -->
+  <nav>
+    <h2>Admin Panel</h2>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="projects.html">Projects</a></li>
+      <li><a href="skills.html">Skills</a></li>
+      <li><a href="certifications.html">Certifications</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
 
-  <ul>
-    <li><a href="index.html">Home</a></li>
-    <li><a href="projects.html">Projects</a></li>
-    <li><a href="skills.html">Skills</a></li>
-    <li><a href="contact.html">Contact</a></li>
-  </ul>
-</nav>
+  <!-- DASHBOARD WRAPPER -->
+  <div class="dashboard-layout" style="padding: 0 8%;">
+    
+    <!-- SIDEBAR -->
+    <div class="dash-sidebar">
+      <button class="dash-tab-btn active" data-tab="analytics-panel"><i class="fas fa-chart-bar"></i> Analytics</button>
+      <button class="dash-tab-btn" data-tab="profile-panel"><i class="fas fa-user-cog"></i> Profile Settings</button>
+      <button class="dash-tab-btn" data-tab="projects-panel"><i class="fas fa-tasks"></i> Projects</button>
+      <button class="dash-tab-btn" data-tab="skills-panel"><i class="fas fa-brain"></i> Skills</button>
+      <button class="dash-tab-btn" data-tab="certs-panel"><i class="fas fa-certificate"></i> Certifications</button>
+      <button class="dash-tab-btn" data-tab="edu-panel"><i class="fas fa-graduation-cap"></i> Education</button>
+      <button class="dash-tab-btn" data-tab="inbox-panel"><i class="fas fa-inbox"></i> Inbox Messages</button>
+      
+      <div class="dash-logout-btn">
+        <button id="logoutBtn" class="secondary-btn" style="width: 100%; border-color: rgba(239, 68, 68, 0.4); color: #f87171;"><i class="fas fa-sign-out-alt" style="margin-right: 8px;"></i> Logout</button>
+      </div>
+    </div>
 
-<h1 class="page-title">Dashboard</h1>
+    <!-- MAIN PANELS -->
+    <div class="dash-content">
 
-<!-- MAIN CONTAINER -->
-<div class="dashboard-container">
+      <!-- PANEL 1: ANALYTICS -->
+      <div id="analytics-panel" class="dash-panel active">
+        <div class="panel-header">
+          <h2>Overview Analytics</h2>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div id="stat-visits" class="stat-number">0</div>
+            <div class="stat-label">Total Visits</div>
+          </div>
+          <div class="stat-card">
+            <div id="stat-projects" class="stat-number">0</div>
+            <div class="stat-label">Projects</div>
+          </div>
+          <div class="stat-card">
+            <div id="stat-skills" class="stat-number">0</div>
+            <div class="stat-label">Skills</div>
+          </div>
+          <div class="stat-card">
+            <div id="stat-certs" class="stat-number">0</div>
+            <div class="stat-label">Certifications</div>
+          </div>
+          <div class="stat-card">
+            <div id="stat-messages" class="stat-number">0</div>
+            <div class="stat-label">Inbox Messages</div>
+          </div>
+        </div>
+        <div style="background: rgba(255, 255, 255, 0.01); border: 1px solid var(--glass-border); padding: 25px; border-radius: 12px; margin-top: 20px;">
+          <h3>Quick Help Guide</h3>
+          <p style="color: var(--text-secondary); margin-top: 10px; font-size: 0.95rem;">
+            Use this panel to manage every single piece of content on your portfolio. If you upload images, they are converted to Base64 instantly in the browser and stored securely in the database. Changes are updated in real-time across your live website.
+          </p>
+        </div>
+      </div>
 
-  <!-- ADD PROJECT -->
-  <div class="dash-card">
-    <h2>Add Project</h2>
+      <!-- PANEL 2: PROFILE SETTINGS -->
+      <div id="profile-panel" class="dash-panel">
+        <div class="panel-header">
+          <h2>General Settings & About Me</h2>
+        </div>
+        <form id="dashProfileForm" class="dash-form">
+          <div class="form-group span-2">
+            <label for="profileNameInput">Full Name</label>
+            <input type="text" id="profileNameInput" required>
+          </div>
+          <div class="form-group span-2">
+            <label for="profileTitleInput">Professional Title (e.g. Student)</label>
+            <input type="text" id="profileTitleInput" required>
+          </div>
+          <div class="form-group span-2">
+            <label for="profileBioInput">Hero Short Bio</label>
+            <input type="text" id="profileBioInput" required>
+          </div>
+          <div class="form-group span-2">
+            <label for="profileAboutInput">Detailed "About Me" Description</label>
+            <textarea id="profileAboutInput" rows="4" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="profileImageInput">Profile Image URL (or upload local file below)</label>
+            <input type="text" id="profileImageInput">
+          </div>
+          <div class="form-group">
+            <label for="profileImageFile">Upload Local Photo (Auto-Base64)</label>
+            <input type="file" id="profileImageFile" accept="image/*">
+            <div class="image-upload-preview" id="profile-img-preview">
+              <span>No Image Selected</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="profileResumeInput">Resume Link (Google Drive / Dropbox URL)</label>
+            <input type="text" id="profileResumeInput">
+          </div>
+          <div class="form-group">
+            <label for="profileGithubInput">GitHub Link</label>
+            <input type="text" id="profileGithubInput">
+          </div>
+          <div class="form-group">
+            <label for="profileLinkedinInput">LinkedIn Link</label>
+            <input type="text" id="profileLinkedinInput">
+          </div>
+          <div class="form-group">
+            <label for="profileEmailInput">Contact Email</label>
+            <input type="text" id="profileEmailInput">
+          </div>
+          <button type="submit">Save General Changes <i class="fas fa-save" style="margin-left: 8px;"></i></button>
+        </form>
+      </div>
 
-    <form id="projectForm">
+      <!-- PANEL 3: PROJECTS -->
+      <div id="projects-panel" class="dash-panel">
+        <div class="panel-header">
+          <h2>Manage Projects</h2>
+        </div>
+        
+        <!-- Add Project Form -->
+        <h3 style="margin-bottom: 15px;">Add New Project</h3>
+        <form id="dashProjectForm" class="dash-form" style="margin-bottom: 40px; padding-bottom: 30px; border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+          <div class="form-group">
+            <label for="projTitle">Project Title</label>
+            <input type="text" id="projTitle" placeholder="E.g. Housing Price Predictor" required>
+          </div>
+          <div class="form-group">
+            <label for="projCategory">Category</label>
+            <select id="projCategory" style="width:100%; padding:10px; background:#020617; border:1px solid #1e293b; border-radius:5px; color:white;">
+              <option value="Machine Learning">Machine Learning</option>
+              <option value="Data Analytics">Data Analytics</option>
+              <option value="Web Development">Web Development</option>
+            </select>
+          </div>
+          <div class="form-group span-2">
+            <label for="projDesc">Short Description</label>
+            <textarea id="projDesc" rows="3" placeholder="Describe the model architecture, dataset, or tech stack..." required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="projGithub">GitHub Repository Link</label>
+            <input type="text" id="projGithub" placeholder="https://github.com/..." required>
+          </div>
+          <div class="form-group">
+            <label for="projDemo">Demo Link (Optional)</label>
+            <input type="text" id="projDemo" placeholder="https://demo-app.com">
+          </div>
+          <div class="form-group">
+            <label for="projTags">Key Tech Tags (Comma-separated)</label>
+            <input type="text" id="projTags" placeholder="Python, Pandas, Scikit-learn, Flask">
+          </div>
+          <div class="form-group">
+            <label for="projImageFile">Project Screenshot Upload (Auto-Base64)</label>
+            <input type="file" id="projImageFile" accept="image/*">
+            <div class="image-upload-preview" id="proj-img-preview">
+              <span>No Image Selected</span>
+            </div>
+            <input type="hidden" id="projImageBase64">
+          </div>
+          <button type="submit">Publish Project <i class="fas fa-plus" style="margin-left: 8px;"></i></button>
+        </form>
+        
+        <!-- Live Projects List -->
+        <h3 style="margin-bottom: 15px;">Published Projects</h3>
+        <div id="dash-projects-list" class="item-list">
+          <p style="color:var(--text-secondary)">Loading projects list...</p>
+        </div>
+      </div>
 
-      <input type="text" id="title" placeholder="Project Title" required>
+      <!-- PANEL 4: SKILLS -->
+      <div id="skills-panel" class="dash-panel">
+        <div class="panel-header">
+          <h2>Manage Skills</h2>
+        </div>
+        
+        <!-- Add Skill Form -->
+        <h3 style="margin-bottom: 15px;">Add New Skill</h3>
+        <form id="dashSkillForm" class="dash-form" style="margin-bottom: 40px; padding-bottom: 30px; border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+          <div class="form-group">
+            <label for="skillNameInput">Skill Name (e.g. PyTorch)</label>
+            <input type="text" id="skillNameInput" placeholder="Python" required>
+          </div>
+          <div class="form-group">
+            <label for="skillLevelInput">Proficiency Level (0 - 100%)</label>
+            <input type="number" id="skillLevelInput" min="0" max="100" placeholder="85" required>
+          </div>
+          <div class="form-group span-2">
+            <label for="skillCategoryInput">Skill Category</label>
+            <select id="skillCategoryInput" style="width:100%; padding:10px; background:#020617; border:1px solid #1e293b; border-radius:5px; color:white;">
+              <option value="Programming Languages">Programming Languages</option>
+              <option value="Data Science & ML">Data Science & ML</option>
+              <option value="Web Technologies">Web Technologies</option>
+              <option value="Databases & Tools">Databases & Tools</option>
+            </select>
+          </div>
+          <button type="submit">Add Skill <i class="fas fa-plus" style="margin-left: 8px;"></i></button>
+        </form>
 
-      <input type="text" id="description" placeholder="Short Description" required>
+        <!-- Live Skills List -->
+        <h3 style="margin-bottom: 15px;">Existing Skills</h3>
+        <div id="dash-skills-list" class="item-list">
+          <p style="color:var(--text-secondary)">Loading skills list...</p>
+        </div>
+      </div>
 
-      <input type="text" id="github" placeholder="GitHub Link">
+      <!-- PANEL 5: CERTIFICATIONS -->
+      <div id="certs-panel" class="dash-panel">
+        <div class="panel-header">
+          <h2>Manage Certifications</h2>
+        </div>
+        
+        <!-- Add Certification Form -->
+        <h3 style="margin-bottom: 15px;">Add Certification</h3>
+        <form id="dashCertForm" class="dash-form" style="margin-bottom: 40px; padding-bottom: 30px; border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+          <div class="form-group">
+            <label for="certTitle">Certification Title</label>
+            <input type="text" id="certTitle" placeholder="E.g. Neural Networks and Deep Learning" required>
+          </div>
+          <div class="form-group">
+            <label for="certIssuer">Issuing Organization</label>
+            <input type="text" id="certIssuer" placeholder="E.g. Coursera / deeplearning.ai" required>
+          </div>
+          <div class="form-group">
+            <label for="certYear">Year / Date of Completion</label>
+            <input type="text" id="certYear" placeholder="E.g. 2025" required>
+          </div>
+          <div class="form-group">
+            <label for="certLink">Verification Link</label>
+            <input type="text" id="certLink" placeholder="https://coursera.org/verify/...">
+          </div>
+          <button type="submit">Add Certification <i class="fas fa-plus" style="margin-left: 8px;"></i></button>
+        </form>
 
-      <input type="text" id="image" placeholder="Image URL (optional)">
+        <!-- Live Certifications List -->
+        <h3 style="margin-bottom: 15px;">Existing Certifications</h3>
+        <div id="dash-certs-list" class="item-list">
+          <p style="color:var(--text-secondary)">Loading certifications list...</p>
+        </div>
+      </div>
 
-      <button type="submit">Add Project</button>
+      <!-- PANEL 6: EDUCATION -->
+      <div id="edu-panel" class="dash-panel">
+        <div class="panel-header">
+          <h2>Manage Education Timeline</h2>
+        </div>
+        
+        <!-- Add Education Form -->
+        <h3 style="margin-bottom: 15px;">Add Education Milestone</h3>
+        <form id="dashEduForm" class="dash-form" style="margin-bottom: 40px; padding-bottom: 30px; border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+          <div class="form-group">
+            <label for="eduDegree">Degree / Examination (e.g. B.Tech Data Science)</label>
+            <input type="text" id="eduDegree" placeholder="B.Tech Data Science" required>
+          </div>
+          <div class="form-group">
+            <label for="eduInstitution">Institution / University</label>
+            <input type="text" id="eduInstitution" placeholder="Aditya University, Kakinada" required>
+          </div>
+          <div class="form-group">
+            <label for="eduYear">Duration Year (e.g. 2022 - 2026)</label>
+            <input type="text" id="eduYear" placeholder="2022 - 2026" required>
+          </div>
+          <div class="form-group">
+            <label for="eduGPA">GPA / Percentage (Optional)</label>
+            <input type="text" id="eduGPA" placeholder="E.g. 9.1 CGPA">
+          </div>
+          <div class="form-group span-2">
+            <label for="eduDetails">Key Coursework / Details</label>
+            <textarea id="eduDetails" rows="3" placeholder="Data structures, machine learning theory, probability..."></textarea>
+          </div>
+          <button type="submit">Add Education <i class="fas fa-plus" style="margin-left: 8px;"></i></button>
+        </form>
 
-    </form>
+        <!-- Live Education Timeline List -->
+        <h3 style="margin-bottom: 15px;">Education Milestones</h3>
+        <div id="dash-edu-list" class="item-list">
+          <p style="color:var(--text-secondary)">Loading education milestones...</p>
+        </div>
+      </div>
+
+      <!-- PANEL 7: INBOX MESSAGES -->
+      <div id="inbox-panel" class="dash-panel">
+        <div class="panel-header">
+          <h2>Inbox Messages</h2>
+        </div>
+        <div id="dash-messages-list" style="display:flex; flex-direction:column; gap:20px;">
+          <p style="color:var(--text-secondary)">Loading messages inbox...</p>
+        </div>
+      </div>
+
+    </div>
   </div>
 
-  <!-- ADD SKILL -->
-  <div class="dash-card">
-    <h2>Add Skill</h2>
-
-    <form id="skillForm">
-
-      <input type="text" id="skillName" placeholder="Skill Name (e.g. Python)" required>
-
-      <input type="number" id="skillLevel" placeholder="Skill Level (0-100%)" required>
-
-      <button type="submit">Add Skill</button>
-
-    </form>
+  <!-- ===== MODALS FOR EDITING ===== -->
+  
+  <!-- Project Edit Modal -->
+  <div class="dash-modal" id="editProjectModal">
+    <div class="modal-content">
+      <span class="modal-close" onclick="closeModal('editProjectModal')">&times;</span>
+      <h2 style="margin-bottom:20px; border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:10px;">Edit Project</h2>
+      <form id="editProjectForm" class="dash-form">
+        <input type="hidden" id="editProjId">
+        <div class="form-group">
+          <label for="editProjTitle">Project Title</label>
+          <input type="text" id="editProjTitle" required>
+        </div>
+        <div class="form-group">
+          <label for="editProjCategory">Category</label>
+          <select id="editProjCategory" style="width:100%; padding:10px; background:#020617; border:1px solid #1e293b; border-radius:5px; color:white;">
+            <option value="Machine Learning">Machine Learning</option>
+            <option value="Data Analytics">Data Analytics</option>
+            <option value="Web Development">Web Development</option>
+          </select>
+        </div>
+        <div class="form-group span-2">
+          <label for="editProjDesc">Short Description</label>
+          <textarea id="editProjDesc" rows="3" required></textarea>
+        </div>
+        <div class="form-group">
+          <label for="editProjGithub">GitHub Link</label>
+          <input type="text" id="editProjGithub" required>
+        </div>
+        <div class="form-group">
+          <label for="editProjDemo">Demo Link</label>
+          <input type="text" id="editProjDemo">
+        </div>
+        <div class="form-group">
+          <label for="editProjTags">Key Tech Tags</label>
+          <input type="text" id="editProjTags">
+        </div>
+        <div class="form-group">
+          <label for="editProjImageFile">Change Photo (Auto-Base64)</label>
+          <input type="file" id="editProjImageFile" accept="image/*">
+          <div class="image-upload-preview" id="edit-proj-img-preview">
+            <span>No Image Selected</span>
+          </div>
+          <input type="hidden" id="editProjImageBase64">
+        </div>
+        <button type="submit" style="grid-column: span 2; padding:12px; background:var(--accent-cyan); border:none; border-radius:8px; font-weight:700;">Save Changes</button>
+      </form>
+    </div>
   </div>
 
-</div>
-
-<!-- MESSAGES -->
-<div class="messages-section">
-
-  <div class="messages-container">
-
-    <h2>Visitor Messages</h2>
-
-    <div id="messages" class="message-box"></div>
-
+  <!-- Skill Edit Modal -->
+  <div class="dash-modal" id="editSkillModal">
+    <div class="modal-content">
+      <span class="modal-close" onclick="closeModal('editSkillModal')">&times;</span>
+      <h2 style="margin-bottom:20px; border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:10px;">Edit Skill</h2>
+      <form id="editSkillForm" class="dash-form">
+        <input type="hidden" id="editSkillId">
+        <div class="form-group">
+          <label for="editSkillName">Skill Name</label>
+          <input type="text" id="editSkillName" required>
+        </div>
+        <div class="form-group">
+          <label for="editSkillLevel">Proficiency Level (0-100%)</label>
+          <input type="number" id="editSkillLevel" min="0" max="100" required>
+        </div>
+        <div class="form-group span-2">
+          <label for="editSkillCategory">Skill Category</label>
+          <select id="editSkillCategory" style="width:100%; padding:10px; background:#020617; border:1px solid #1e293b; border-radius:5px; color:white;">
+            <option value="Programming Languages">Programming Languages</option>
+            <option value="Data Science & ML">Data Science & ML</option>
+            <option value="Web Technologies">Web Technologies</option>
+            <option value="Databases & Tools">Databases & Tools</option>
+          </select>
+        </div>
+        <button type="submit" style="grid-column: span 2; padding:12px; background:var(--accent-cyan); border:none; border-radius:8px; font-weight:700;">Save Changes</button>
+      </form>
+    </div>
   </div>
 
-</div>
-<script src="js/script.js"></script>
+  <!-- Certification Edit Modal -->
+  <div class="dash-modal" id="editCertModal">
+    <div class="modal-content">
+      <span class="modal-close" onclick="closeModal('editCertModal')">&times;</span>
+      <h2 style="margin-bottom:20px; border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:10px;">Edit Certification</h2>
+      <form id="editCertForm" class="dash-form">
+        <input type="hidden" id="editCertId">
+        <div class="form-group">
+          <label for="editCertTitle">Certification Title</label>
+          <input type="text" id="editCertTitle" required>
+        </div>
+        <div class="form-group">
+          <label for="editCertIssuer">Issuing Organization</label>
+          <input type="text" id="editCertIssuer" required>
+        </div>
+        <div class="form-group">
+          <label for="editCertYear">Year</label>
+          <input type="text" id="editCertYear" required>
+        </div>
+        <div class="form-group">
+          <label for="editCertLink">Verification Link</label>
+          <input type="text" id="editCertLink">
+        </div>
+        <button type="submit" style="grid-column: span 2; padding:12px; background:var(--accent-cyan); border:none; border-radius:8px; font-weight:700;">Save Changes</button>
+      </form>
+    </div>
+  </div>
 
+  <!-- Education Edit Modal -->
+  <div class="dash-modal" id="editEduModal">
+    <div class="modal-content">
+      <span class="modal-close" onclick="closeModal('editEduModal')">&times;</span>
+      <h2 style="margin-bottom:20px; border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:10px;">Edit Education Milestone</h2>
+      <form id="editEduForm" class="dash-form">
+        <input type="hidden" id="editEduId">
+        <div class="form-group">
+          <label for="editEduDegree">Degree / Examination</label>
+          <input type="text" id="editEduDegree" required>
+        </div>
+        <div class="form-group">
+          <label for="editEduInstitution">Institution / University</label>
+          <input type="text" id="editEduInstitution" required>
+        </div>
+        <div class="form-group">
+          <label for="editEduYear">Duration Year</label>
+          <input type="text" id="editEduYear" required>
+        </div>
+        <div class="form-group">
+          <label for="editEduGPA">GPA / Percentage</label>
+          <input type="text" id="editEduGPA">
+        </div>
+        <div class="form-group span-2">
+          <label for="editEduDetails">Key Coursework / Details</label>
+          <textarea id="editEduDetails" rows="3"></textarea>
+        </div>
+        <button type="submit" style="grid-column: span 2; padding:12px; background:var(--accent-cyan); border:none; border-radius:8px; font-weight:700;">Save Changes</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/script.js"></script>
 </body>
 </html>
