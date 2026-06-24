@@ -129,6 +129,24 @@
           </div>
           <button type="submit">Save General Changes <i class="fas fa-save" style="margin-left: 8px;"></i></button>
         </form>
+
+        <!-- CHANGE PASSWORD FORM -->
+        <h3 style="margin-top: 40px; margin-bottom: 15px; padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.05);">Change Password</h3>
+        <form id="dashPasswordForm" class="dash-form" style="grid-template-columns: 1fr 1fr;">
+          <div class="form-group span-2">
+            <label for="currentPasswordInput">Current Password</label>
+            <input type="password" id="currentPasswordInput" required>
+          </div>
+          <div class="form-group">
+            <label for="newPasswordInput">New Password</label>
+            <input type="password" id="newPasswordInput" minlength="6" required>
+          </div>
+          <div class="form-group">
+            <label for="confirmPasswordInput">Confirm New Password</label>
+            <input type="password" id="confirmPasswordInput" minlength="6" required>
+          </div>
+          <button type="submit" style="grid-column: span 2; padding: 12px; background: var(--accent-pink); color: #000; border: none; font-weight: 700; border-radius: 8px; cursor: pointer; transition: var(--transition-smooth);">Update Password <i class="fas fa-key" style="margin-left: 8px;"></i></button>
+        </form>
       </div>
 
       <!-- PANEL 3: PROJECTS -->

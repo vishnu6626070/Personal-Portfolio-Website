@@ -563,6 +563,40 @@ function setupDashboardForms() {
         });
     }
 
+    // 1b. Password Change Form
+    const pwForm = document.getElementById("dashPasswordForm");
+    if (pwForm) {
+        pwForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const currentPassword = document.getElementById("currentPasswordInput").value;
+            const newPassword = document.getElementById("newPasswordInput").value;
+            const confirmPassword = document.getElementById("confirmPasswordInput").value;
+
+            if (newPassword !== confirmPassword) {
+                alert("New passwords do not match!");
+                return;
+            }
+
+            try {
+                const res = await fetch(`${BASE_URL}/api/change-password`, {
+                    method: "PUT",
+                    headers: getAuthHeaders(),
+                    body: JSON.stringify({ currentPassword, newPassword })
+                });
+
+                const data = await res.json();
+                if (res.ok) {
+                    alert("Password updated successfully!");
+                    pwForm.reset();
+                } else {
+                    alert(data.message || "Failed to update password.");
+                }
+            } catch (err) {
+                alert("Network error. Failed to connect to server.");
+            }
+        });
+    }
+
     // 2. Add Project Form
     const projForm = document.getElementById("dashProjectForm");
     if (projForm) {
