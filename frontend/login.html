@@ -17,6 +17,7 @@
       <li><a href="index.html">Home</a></li>
       <li><a href="projects.html">Projects</a></li>
       <li><a href="skills.html">Skills</a></li>
+      <li><a href="education.html">Education</a></li>
       <li><a href="certifications.html">Certifications</a></li>
       <li><a href="contact.html">Contact</a></li>
       <li class="active"><a href="login.html" class="admin-nav-btn">Admin</a></li>
@@ -35,9 +36,10 @@
           <input type="email" id="email" placeholder="admin@example.com" required>
         </div>
         
-        <div class="form-group" style="text-align: left;">
+        <div class="form-group" style="text-align: left; position: relative;">
           <label for="password">Password</label>
-          <input type="password" id="password" placeholder="••••••••" minlength="6" required>
+          <input type="password" id="password" placeholder="••••••••" minlength="6" required style="padding-right: 40px;">
+          <i class="fas fa-eye-slash" id="toggleLoginPassword" style="position: absolute; right: 15px; top: 38px; cursor: pointer; color: var(--text-secondary); transition: var(--transition-smooth);"></i>
         </div>
         
         <button type="submit">Login <i class="fas fa-sign-in-alt" style="margin-left: 8px;"></i></button>

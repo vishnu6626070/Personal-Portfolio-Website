@@ -10,7 +10,14 @@ const settingsSchema = new mongoose.Schema({
   githubUrl: { type: String, default: "" },
   linkedinUrl: { type: String, default: "" },
   emailUrl: { type: String, default: "" },
-  visitorCount: { type: Number, default: 0 }
+  visitorCount: { type: Number, default: 0 },
+  // Bento Grid dynamic fields
+  cgpa: { type: String, default: "9.1" },
+  projectsCount: { type: Number, default: 12 },
+  certsCount: { type: Number, default: 15 },
+  problemsSolved: { type: Number, default: 500 },
+  strengths: { type: String, default: "Machine Learning, Deep Learning, Statistical Analysis, Data Engineering" },
+  objective: { type: String, default: "To leverage data-driven analytics and statistical models to deliver scalable business solutions..." }
 });
 
 module.exports = mongoose.model("Settings", settingsSchema);

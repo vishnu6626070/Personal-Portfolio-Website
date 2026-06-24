@@ -3,75 +3,308 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vishnu Portfolio | Home</title>
+  <title>Vishnu Portfolio | AI SaaS Dashboard</title>
   <!-- Google Fonts & FontAwesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="home-page">
+<body class="home-page bento-layout">
+
+  <!-- Interactive Starfield Canvas Background -->
+  <canvas id="starfield-canvas"></canvas>
 
   <!-- NAVBAR -->
   <nav>
-    <h2>Vishnu Portfolio</h2>
+    <h2>Vishnu.AI</h2>
     <ul>
       <li class="active"><a href="index.html">Home</a></li>
       <li><a href="projects.html">Projects</a></li>
       <li><a href="skills.html">Skills</a></li>
+      <li><a href="education.html">Education</a></li>
       <li><a href="certifications.html">Certifications</a></li>
       <li><a href="contact.html">Contact</a></li>
       <li><a href="login.html" class="admin-nav-btn">Admin</a></li>
     </ul>
   </nav>
 
-  <!-- HERO SECTION -->
-  <section>
-    <div class="home-page-container">
-      
-      <!-- HERO CONTENT -->
-      <div class="hero-content">
-        <div class="visitor-badge">
-          <span class="pulse-dot"></span>
-          <span>Views: <strong id="visit-count">0</strong></span>
-        </div>
-        
-        <h1>Hello, I'm <br><span id="profile-name" class="gradient-text">ANNAPUREDDY VISHNUVARDHAN REDDY</span></h1>
-        <p id="profile-title" class="hero-subtitle">B.Tech Data Science Student</p>
-        <p id="profile-bio" class="hero-bio">
-          I build data analysis, machine learning models, and full-stack web development projects.
-        </p>
-        
-        <div class="btn-group">
-          <a href="projects.html" class="main-btn">View My Work <i class="fas fa-arrow-right" style="margin-left: 8px;"></i></a>
-          <a id="resume-btn" href="#" target="_blank" class="secondary-btn"><i class="fas fa-file-download" style="margin-right: 8px;"></i> Download Resume</a>
-        </div>
-        
-        <!-- SOCIAL LINKS -->
-        <div class="social-links">
-          <a id="github-link" href="#" target="_blank" class="social-icon" title="GitHub"><i class="fab fa-github"></i></a>
-          <a id="linkedin-link" href="#" target="_blank" class="social-icon" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-          <a id="email-link" href="#" class="social-icon" title="Email"><i class="fas fa-envelope"></i></a>
-        </div>
-      </div>
-      
-      <!-- HERO IMAGE -->
-      <div class="hero-image-wrapper">
-        <div class="image-glow-ring">
-          <img id="profile-image" src="images/profiler.jfif" alt="ANNAPUREDDY VISHNUVARDHAN REDDY">
-        </div>
-      </div>
-      
-    </div>
-    
-    <!-- ABOUT BOX -->
-    <div class="about-section-box">
-      <h3>About Me</h3>
-      <p id="profile-about">
-        Currently pursuing B.Tech in Data Science at Aditya University. Passionate about machine learning, statistical modeling, and full-stack web development.
-      </p>
-    </div>
-  </section>
+  <!-- MAIN BENTO DASHBOARD CONTAINER -->
+  <main class="bento-container">
 
-  <!-- JS SCRIPT -->
+    <!-- WIDGET 1: HERO CONTROL CENTER (Spans 2 cols, 2 rows) -->
+    <div class="bento-card hero-widget span-2-cols span-2-rows">
+      <div class="hero-header-flex">
+        <!-- Floating Profile Image -->
+        <div class="hero-avatar-wrapper">
+          <div class="avatar-glow"></div>
+          <img id="profile-image" src="images/profiler.jfif" alt="Vishnu Avatar" onerror="this.src='https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=400'">
+        </div>
+        <!-- Status Indicator -->
+        <div class="status-indicator">
+          <span class="status-dot pulsing"></span>
+          <span>Open for Roles</span>
+        </div>
+      </div>
+      
+      <div class="hero-body-info">
+        <h1 class="glow-title">Hello, I'm <br><span id="profile-name" class="gradient-text">A. VISHNUVARDHAN REDDY</span></h1>
+        
+        <!-- Animated Typing Role Switcher Carousel -->
+        <div class="role-switcher-container">
+          <span class="role-static">Active: </span>
+          <span id="role-carousel" class="role-dynamic">Data Science Student</span>
+          <span class="role-cursor">|</span>
+        </div>
+        
+        <p id="profile-bio" class="hero-brief-tagline">
+          Transforming tabular and unstructured datasets into production-grade Machine Learning pipelines.
+        </p>
+
+        <!-- Social Console Buttons -->
+        <div class="console-actions">
+          <a id="resume-btn" href="#" target="_blank" class="glass-btn primary"><i class="fas fa-file-invoice"></i> Resume.pdf</a>
+          <a id="github-link" href="#" target="_blank" class="glass-btn"><i class="fab fa-github"></i> GitHub</a>
+          <a id="linkedin-link" href="#" target="_blank" class="glass-btn"><i class="fab fa-linkedin-in"></i> LinkedIn</a>
+          <a id="email-link" href="#" class="glass-btn"><i class="fas fa-envelope"></i> Email</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- WIDGET 2: CORE STATS (Spans 1 col, 2 rows) -->
+    <div class="bento-card stats-widget span-2-rows">
+      <h3 class="widget-title"><i class="fas fa-analytics"></i> Key Metrics</h3>
+      <div class="stats-bento-grid">
+        <div class="stat-bento-card">
+          <span class="stat-icon"><i class="fas fa-graduation-cap"></i></span>
+          <div class="stat-value" id="stats-cgpa">9.1</div>
+          <div class="stat-label">Academic CGPA</div>
+        </div>
+        <div class="stat-bento-card">
+          <span class="stat-icon"><i class="fas fa-folder-open"></i></span>
+          <div class="stat-value" id="stats-projects">12+</div>
+          <div class="stat-label">ML Projects</div>
+        </div>
+        <div class="stat-bento-card">
+          <span class="stat-icon"><i class="fas fa-award"></i></span>
+          <div class="stat-value" id="stats-certs">15+</div>
+          <div class="stat-label">Certificates</div>
+        </div>
+        <div class="stat-bento-card">
+          <span class="stat-icon"><i class="fas fa-code"></i></span>
+          <div class="stat-value" id="stats-solved">500+</div>
+          <div class="stat-label">Problems Solved</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WIDGET 3: PROFILE SUMMARY & STRENGTHS (Spans 2 cols) -->
+    <div class="bento-card about-widget span-2-cols">
+      <h3 class="widget-title"><i class="fas fa-user-shield"></i> Profile & Strengths</h3>
+      <div class="about-bento-layout">
+        <div class="about-text-column">
+          <p id="profile-about">
+            Currently pursuing B.Tech in Data Science at Aditya University. Passionate about machine learning, statistical modeling, and full-stack web development.
+          </p>
+          <div class="career-objective-box">
+            <h4><i class="fas fa-bullseye"></i> Career Objective</h4>
+            <p id="profile-objective">To leverage machine learning pipelines to solve production-level business problems...</p>
+          </div>
+        </div>
+        <div class="strengths-column">
+          <h4><i class="fas fa-bolt"></i> Core Strengths</h4>
+          <div id="strengths-tags-container" class="strengths-tags">
+            <!-- Loaded dynamically -->
+            <span class="strength-tag">Machine Learning</span>
+            <span class="strength-tag">Data Engineering</span>
+            <span class="strength-tag">Statistical Analysis</span>
+            <span class="strength-tag">SQL & Python</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WIDGET 4: SKILLS RADIAL CONTROLS (Spans 1 col) -->
+    <div class="bento-card skills-widget">
+      <h3 class="widget-title"><i class="fas fa-brain"></i> Skills Gauge</h3>
+      <!-- Circular Progress Indicators -->
+      <div class="radial-skills-container">
+        <div class="radial-skill-box">
+          <div class="radial-svg-wrapper">
+            <svg class="radial-ring" viewBox="0 0 80 80">
+              <circle class="ring-bg" cx="40" cy="40" r="32"></circle>
+              <circle class="ring-fill ring-cyan" cx="40" cy="40" r="32" stroke-dasharray="200" stroke-dashoffset="50" id="radial-py-fill"></circle>
+            </svg>
+            <div class="radial-percentage" id="radial-py-pct">75%</div>
+          </div>
+          <span class="radial-label">Python</span>
+        </div>
+        <div class="radial-skill-box">
+          <div class="radial-svg-wrapper">
+            <svg class="radial-ring" viewBox="0 0 80 80">
+              <circle class="ring-bg" cx="40" cy="40" r="32"></circle>
+              <circle class="ring-fill ring-purple" cx="40" cy="40" r="32" stroke-dasharray="200" stroke-dashoffset="60" id="radial-ml-fill"></circle>
+            </svg>
+            <div class="radial-percentage" id="radial-ml-pct">70%</div>
+          </div>
+          <span class="radial-label">ML & Stats</span>
+        </div>
+      </div>
+      
+      <!-- Mini progress bars -->
+      <div class="bar-skills-container" style="margin-top: 15px;">
+        <div class="bar-skill-item">
+          <div style="display:flex; justify-content:space-between; font-size:0.8rem; margin-bottom:3px;">
+            <span>SQL</span>
+            <span id="skill-sql-pct">80%</span>
+          </div>
+          <div class="bento-progress-bar"><div class="fill fill-cyan" style="width: 80%;" id="skill-sql-fill"></div></div>
+        </div>
+        <div class="bar-skill-item" style="margin-top: 8px;">
+          <div style="display:flex; justify-content:space-between; font-size:0.8rem; margin-bottom:3px;">
+            <span>Power BI</span>
+            <span id="skill-bi-pct">75%</span>
+          </div>
+          <div class="bento-progress-bar"><div class="fill fill-purple" style="width: 75%;" id="skill-bi-fill"></div></div>
+        </div>
+      </div>
+      <div style="text-align: center; margin-top: 15px;">
+        <a href="skills.html" class="widget-link">View Full Toolbox <i class="fas fa-angle-right"></i></a>
+      </div>
+    </div>
+
+    <!-- WIDGET 5: GITHUB ANALYTICS HEATMAP (Spans 2 cols) -->
+    <div class="bento-card github-widget span-2-cols">
+      <h3 class="widget-title"><i class="fab fa-github-alt"></i> GitHub Activity Analytics</h3>
+      <div class="github-bento-layout">
+        <!-- Mock Heatmap grid -->
+        <div class="heatmap-wrapper">
+          <div class="heatmap-header">
+            <span>524 contributions in the last year</span>
+            <span class="heatmap-scale">Less <span class="box lv0"></span><span class="box lv1"></span><span class="box lv2"></span><span class="box lv3"></span><span class="box lv4"></span> More</span>
+          </div>
+          <div class="github-heatmap-grid" id="github-heatmap">
+            <!-- Loaded dynamically in JS grid (53 cols, 7 rows) -->
+          </div>
+        </div>
+        
+        <div class="github-stats-panel">
+          <div class="gh-stat-row">
+            <span>Pull Requests</span>
+            <strong>42</strong>
+          </div>
+          <div class="gh-stat-row">
+            <span>Total Commits</span>
+            <strong>389</strong>
+          </div>
+          <div class="gh-stat-row">
+            <span>Active Repos</span>
+            <strong>8</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WIDGET 6: FEATURED PROJECTS HUB (Spans 3 cols) -->
+    <div class="bento-card projects-widget span-3-cols" id="featured-projects-section">
+      <div class="widget-header-flex">
+        <h3 class="widget-title"><i class="fas fa-project-diagram"></i> Featured Machine Learning Projects</h3>
+        <a href="projects.html" class="glass-btn font-sm">Explore All Projects <i class="fas fa-arrow-right" style="margin-left: 6px;"></i></a>
+      </div>
+      
+      <div class="featured-projects-grid">
+        <!-- Card 1: Fake Instagram Profile Detection -->
+        <div class="project-bento-card">
+          <div class="proj-badge">Machine Learning</div>
+          <h4>Fake Instagram Profile Detection</h4>
+          <p>
+            An end-to-end ML model utilizing random forest algorithms to identify fake/spam profiles on Instagram using metadata indicators.
+          </p>
+          <div class="proj-tech">
+            <span>Python</span>
+            <span>Scikit-Learn</span>
+            <span>Pandas</span>
+            <span>Flask</span>
+          </div>
+          <div class="proj-links">
+            <a href="#" target="_blank" class="link-btn"><i class="fab fa-github"></i> Codebase</a>
+            <a href="#" target="_blank" class="link-btn active"><i class="fas fa-play"></i> Live Demo</a>
+          </div>
+        </div>
+
+        <!-- Card 2: Library Records Analysis -->
+        <div class="project-bento-card">
+          <div class="proj-badge">Data Analytics</div>
+          <h4>Library Records Analysis</h4>
+          <p>
+            An analytical dashboard processing logs of university library visits, analyzing book checkout trends, demand modeling, and user activity.
+          </p>
+          <div class="proj-tech">
+            <span>Python</span>
+            <span>Power BI</span>
+            <span>SQL</span>
+            <span>Matplotlib</span>
+          </div>
+          <div class="proj-links">
+            <a href="#" target="_blank" class="link-btn"><i class="fab fa-github"></i> Codebase</a>
+            <a href="#" target="_blank" class="link-btn active"><i class="fas fa-chart-line"></i> Dashboard</a>
+          </div>
+        </div>
+
+        <!-- Card 3: Machine Learning Frameworks -->
+        <div class="project-bento-card">
+          <div class="proj-badge">Deep Learning</div>
+          <h4>Machine Learning Projects</h4>
+          <p>
+            Repository containing deep learning architectures, CNNs for image classification, and recurrent LSTM networks for statistical modeling.
+          </p>
+          <div class="proj-tech">
+            <span>TensorFlow</span>
+            <span>PyTorch</span>
+            <span>Keras</span>
+            <span>NumPy</span>
+          </div>
+          <div class="proj-links">
+            <a href="#" target="_blank" class="link-btn"><i class="fab fa-github"></i> Repository</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WIDGET 7: CAROUSEL CREDENTIALS (Spans 2 cols) -->
+    <div class="bento-card certs-widget span-2-cols" id="featured-certs-section">
+      <div class="widget-header-flex">
+        <h3 class="widget-title"><i class="fas fa-award"></i> Professional Credentials</h3>
+        <a href="certifications.html" class="widget-link">View All <i class="fas fa-angle-right"></i></a>
+      </div>
+      <div id="bento-certs-grid" class="bento-certs-slider">
+        <!-- Loaded dynamically via JavaScript -->
+        <div style="color:var(--text-secondary); text-align:center; padding: 20px; grid-column:1/-1;">
+          <i class="fas fa-spinner fa-spin"></i> Loading certifications...
+        </div>
+      </div>
+    </div>
+
+    <!-- WIDGET 8: CONTACT CONSOLE TERMINAL (Spans 1 col) -->
+    <div class="bento-card contact-widget">
+      <h3 class="widget-title"><i class="fas fa-terminal"></i> Contact Console</h3>
+      <form id="contactForm" class="console-form">
+        <div class="console-input-group">
+          <span class="prompt">vishnu:~$ name</span>
+          <input type="text" id="name" placeholder="Enter name..." required>
+        </div>
+        <div class="console-input-group">
+          <span class="prompt">vishnu:~$ email</span>
+          <input type="email" id="email" placeholder="Enter email..." required>
+        </div>
+        <div class="console-input-group">
+          <span class="prompt">vishnu:~$ msg</span>
+          <textarea id="message" rows="3" placeholder="Type message..." required></textarea>
+        </div>
+        <button type="submit" class="console-submit-btn">execute submit.sh <i class="fas fa-paper-plane" style="margin-left:5px;"></i></button>
+      </form>
+    </div>
+
+  </main>
+
   <script src="js/script.js"></script>
 </body>
 </html>

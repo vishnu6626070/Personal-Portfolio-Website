@@ -34,7 +34,221 @@ function convertFileToBase64(file) {
     });
 }
 
-// ================= GLOBAL / HOME SETTINGS & VISITS =================
+// ================= FUTURISTIC CANVAS BACKGROUND =================
+function initStarfield() {
+    const canvas = document.getElementById("starfield-canvas");
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    
+    let w = canvas.width = window.innerWidth;
+    let h = canvas.height = window.innerHeight;
+    
+    window.addEventListener("resize", () => {
+        w = canvas.width = window.innerWidth;
+        h = canvas.height = window.innerHeight;
+    });
+    
+    const particles = [];
+    const count = 50;
+    
+    for (let i = 0; i < count; i++) {
+        particles.push({
+            x: Math.random() * w,
+            y: Math.random() * h,
+            r: Math.random() * 2 + 1,
+            vx: Math.random() * 0.3 - 0.15,
+            vy: Math.random() * 0.3 - 0.15,
+            color: Math.random() > 0.5 ? "rgba(34, 211, 238, 0.2)" : "rgba(124, 58, 237, 0.2)"
+        });
+    }
+    
+    let mouse = { x: null, y: null, radius: 100 };
+    window.addEventListener("mousemove", (e) => {
+        mouse.x = e.x;
+        mouse.y = e.y;
+    });
+    window.addEventListener("mouseleave", () => {
+        mouse.x = null;
+        mouse.y = null;
+    });
+    
+    function draw() {
+        ctx.clearRect(0, 0, w, h);
+        
+        particles.forEach(p => {
+            p.x += p.vx;
+            p.y += p.vy;
+            
+            if (p.x < 0 || p.x > w) p.vx *= -1;
+            if (p.y < 0 || p.y > h) p.vy *= -1;
+            
+            if (mouse.x !== null) {
+                const dx = p.x - mouse.x;
+                const dy = p.y - mouse.y;
+                const dist = Math.sqrt(dx*dx + dy*dy);
+                if (dist < mouse.radius) {
+                    const force = (mouse.radius - dist) / mouse.radius;
+                    p.x += (dx / dist) * force * 2;
+                    p.y += (dy / dist) * force * 2;
+                }
+            }
+            
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fillStyle = p.color;
+            ctx.fill();
+        });
+        
+        requestAnimationFrame(draw);
+    }
+    draw();
+}
+
+// ================= TYPEWRITER ROLE SWITCHER =================
+function initRoleCarousel() {
+    const el = document.getElementById("role-carousel");
+    if (!el) return;
+    
+    const roles = [
+        "Data Science Student",
+        "Machine Learning Enthusiast",
+        "Data Analyst",
+        "Problem Solver"
+    ];
+    
+    let wordIdx = 0;
+    let charIdx = 0;
+    let isDeleting = false;
+    
+    function tick() {
+        const fullWord = roles[wordIdx];
+        
+        if (isDeleting) {
+            el.textContent = fullWord.substring(0, charIdx - 1);
+            charIdx--;
+        } else {
+            el.textContent = fullWord.substring(0, charIdx + 1);
+            charIdx++;
+        }
+        
+        let typeSpeed = 80;
+        if (isDeleting) typeSpeed = 40;
+        
+        if (!isDeleting && charIdx === fullWord.length) {
+            typeSpeed = 2200; // Pause at end of word
+            isDeleting = true;
+        } else if (isDeleting && charIdx === 0) {
+            isDeleting = false;
+            wordIdx = (wordIdx + 1) % roles.length;
+            typeSpeed = 400; // Pause before typing next
+        }
+        
+        setTimeout(tick, typeSpeed);
+    }
+    tick();
+}
+
+// ================= SKILLS RADIAL RINGS ANIMATION =================
+function animateRadialSkills(pythonLevel = 75, mlLevel = 70) {
+    const pyFill = document.getElementById("radial-py-fill");
+    const pyPct = document.getElementById("radial-py-pct");
+    const mlFill = document.getElementById("radial-ml-fill");
+    const mlPct = document.getElementById("radial-ml-pct");
+    
+    if (pyFill && pyPct) {
+        // Circumference is approx 201 (2 * pi * r where r=32)
+        const pyOffset = 201 - (201 * pythonLevel / 100);
+        pyFill.style.strokeDashoffset = pyOffset;
+        pyPct.textContent = pythonLevel + "%";
+    }
+    
+    if (mlFill && mlPct) {
+        const mlOffset = 201 - (201 * mlLevel / 100);
+        mlFill.style.strokeDashoffset = mlOffset;
+        mlPct.textContent = mlLevel + "%";
+    }
+}
+
+// ================= GITHUB GRAPH GENERATOR =================
+function initGithubHeatmap() {
+    const grid = document.getElementById("github-heatmap");
+    if (!grid) return;
+    
+    grid.innerHTML = "";
+    const cellsCount = 35 * 7;
+    
+    for (let i = 0; i < cellsCount; i++) {
+        const cell = document.createElement("div");
+        cell.className = "heatmap-cell";
+        
+        const rand = Math.random();
+        if (rand < 0.60) {
+            cell.className += " lv0";
+        } else if (rand < 0.80) {
+            cell.className += " lv1";
+        } else if (rand < 0.90) {
+            cell.className += " lv2";
+        } else if (rand < 0.96) {
+            cell.className += " lv3";
+        } else {
+            cell.className += " lv4";
+        }
+        grid.appendChild(cell);
+    }
+}
+
+// ================= STATS COUNT ANIMATION =================
+function animateBentoStats(cgpa = "9.1", projects = 12, certs = 15, solved = 500) {
+    animateCount(document.getElementById("stats-cgpa"), 0, parseFloat(cgpa), 1.5, true);
+    animateCount(document.getElementById("stats-projects"), 0, projects, 1.5, false, "+");
+    animateCount(document.getElementById("stats-certs"), 0, certs, 1.5, false, "+");
+    animateCount(document.getElementById("stats-solved"), 0, solved, 1.5, false, "+");
+}
+
+function animateCount(element, start, end, duration, isFloat = false, suffix = "") {
+    if (!element) return;
+    let startTime = null;
+    
+    function step(timestamp) {
+        if (!startTime) startTime = timestamp;
+        const progress = Math.min((timestamp - startTime) / (duration * 1000), 1);
+        const currentVal = progress * (end - start) + start;
+        
+        element.textContent = isFloat 
+            ? currentVal.toFixed(1) + suffix
+            : Math.floor(currentVal) + suffix;
+            
+        if (progress < 1) {
+            window.requestAnimationFrame(step);
+        } else {
+            element.textContent = isFloat ? end.toFixed(1) + suffix : end + suffix;
+        }
+    }
+    window.requestAnimationFrame(step);
+}
+
+// Name Typewriter Effect
+function typeWriter(element, text, speed) {
+    if (!element) return;
+    element.textContent = "";
+    let i = 0;
+    const cursor = document.getElementById("typing-cursor");
+    
+    function type() {
+        if (i < text.length) {
+            element.textContent += text.charAt(i);
+            i++;
+            setTimeout(type, speed);
+        } else if (cursor) {
+            setTimeout(() => {
+                cursor.style.display = "none";
+            }, 3000);
+        }
+    }
+    type();
+}
+
+// ================= GLOBAL / HOME SETTINGS =================
 async function loadHomeSettings() {
     const nameEl = document.getElementById("profile-name");
     const titleEl = document.getElementById("profile-title");
@@ -45,35 +259,45 @@ async function loadHomeSettings() {
     const githubLink = document.getElementById("github-link");
     const linkedinLink = document.getElementById("linkedin-link");
     const emailLink = document.getElementById("email-link");
-    const visitCountEl = document.getElementById("visit-count");
-    
     const contactEmailTxt = document.getElementById("contact-email-txt");
     const contactGithub = document.getElementById("contact-github");
     const contactLinkedin = document.getElementById("contact-linkedin");
-
-    // Tries to log visit and get updated visitor counts
-    if (window.location.pathname.endsWith("index.html") || window.location.pathname === "/" || window.location.pathname.endsWith("/")) {
-        try {
-            const visitRes = await fetch(`${BASE_URL}/api/settings/visit`, { method: "POST" });
-            if (visitRes.ok) {
-                const visitData = await visitRes.json();
-                if (visitCountEl) visitCountEl.textContent = visitData.visitorCount;
-            }
-        } catch (err) {
-            console.log("Visit increment failed (local server might be down):", err);
-        }
-    }
 
     try {
         const response = await fetch(`${BASE_URL}/api/settings`);
         if (!response.ok) return;
         const settings = await response.json();
 
-        if (nameEl) nameEl.textContent = settings.name;
+        if (nameEl) {
+            typeWriter(nameEl, settings.name || "A. VISHNUVARDHAN REDDY", 70);
+        }
         if (titleEl) titleEl.textContent = settings.title;
         if (bioEl) bioEl.textContent = settings.bio;
         if (aboutEl) aboutEl.textContent = settings.about;
         
+        // Bento dynamic text bindings
+        const objEl = document.getElementById("profile-objective");
+        if (objEl) objEl.textContent = settings.objective || "To leverage data-driven analytics and statistical models to deliver scalable business solutions...";
+        
+        const strengthsContainer = document.getElementById("strengths-tags-container");
+        if (strengthsContainer && settings.strengths) {
+            strengthsContainer.innerHTML = "";
+            settings.strengths.split(",").forEach(tag => {
+                const span = document.createElement("span");
+                span.className = "strength-tag";
+                span.textContent = tag.trim();
+                strengthsContainer.appendChild(span);
+            });
+        }
+
+        // Animate numbers inside stats grid
+        animateBentoStats(
+            settings.cgpa || "9.1",
+            settings.projectsCount || 12,
+            settings.certsCount || 15,
+            settings.problemsSolved || 500
+        );
+
         if (imageEl && settings.profileImage) {
             imageEl.src = settings.profileImage;
         }
@@ -100,7 +324,7 @@ async function loadHomeSettings() {
             if (!settings.emailUrl) emailLink.style.display = "none";
         }
 
-        // Contact Page bindings
+        // Contact Page binds
         if (contactEmailTxt) contactEmailTxt.textContent = settings.emailUrl || "not available";
         if (contactGithub) contactGithub.href = settings.githubUrl || "#";
         if (contactLinkedin) contactLinkedin.href = settings.linkedinUrl || "#";
@@ -124,7 +348,7 @@ async function loadProjects() {
         setupFilterListeners();
     } catch (err) {
         console.log("Error loading projects:", err);
-        container.innerHTML = `<p style="color:var(--text-secondary)">Failed to connect to the backend database. Run server locally!</p>`;
+        container.innerHTML = `<p style="color:var(--text-secondary)">Failed to connect to projects. Try starting local server!</p>`;
     }
 }
 
@@ -188,12 +412,40 @@ async function loadSkills() {
         const response = await fetch(`${BASE_URL}/api/skills`);
         const skills = await response.json();
 
+        // Extract values to sync with home dashboard radial gauges
+        let pyLevel = 75;
+        let mlLevel = 70;
+        let sqlLevel = 80;
+        let biLevel = 75;
+
+        skills.forEach(skill => {
+            const name = skill.name.toLowerCase();
+            if (name.includes("python")) pyLevel = skill.level;
+            if (name.includes("machine learning") || name.includes("ml")) mlLevel = skill.level;
+            if (name.includes("sql")) sqlLevel = skill.level;
+            if (name.includes("power bi") || name.includes("powerbi")) biLevel = skill.level;
+        });
+
+        // Set gauge levels on Home Page bento grid
+        animateRadialSkills(pyLevel, mlLevel);
+        const sqlFill = document.getElementById("skill-sql-fill");
+        const sqlPct = document.getElementById("skill-sql-pct");
+        if (sqlFill && sqlPct) {
+            sqlFill.style.width = sqlLevel + "%";
+            sqlPct.textContent = sqlLevel + "%";
+        }
+        const biFill = document.getElementById("skill-bi-fill");
+        const biPct = document.getElementById("skill-bi-pct");
+        if (biFill && biPct) {
+            biFill.style.width = biLevel + "%";
+            biPct.textContent = biLevel + "%";
+        }
+
         if (skills.length === 0) {
-            container.innerHTML = `<p style="grid-column:1/-1; text-align:center; color:var(--text-secondary)">No skills uploaded yet.</p>`;
+            container.innerHTML = `<p style="grid-column:1/-1; text-align:center; color:var(--text-secondary)">No skills found.</p>`;
             return;
         }
 
-        // Group skills by category
         const groups = {};
         skills.forEach(skill => {
             const cat = skill.category || "Data Science";
@@ -202,7 +454,6 @@ async function loadSkills() {
         });
 
         container.innerHTML = "";
-        
         Object.keys(groups).forEach(cat => {
             const catCard = document.createElement("div");
             catCard.className = "skill-category-card";
@@ -229,7 +480,6 @@ async function loadSkills() {
             container.appendChild(catCard);
         });
 
-        // Trigger fill animation
         setTimeout(() => {
             document.querySelectorAll(".skill-bar-fill").forEach(fill => {
                 fill.style.width = fill.getAttribute("data-level") + "%";
@@ -238,7 +488,7 @@ async function loadSkills() {
 
     } catch (err) {
         console.log("Error loading skills:", err);
-        container.innerHTML = `<p style="color:var(--text-secondary)">Failed to connect to the skills database.</p>`;
+        container.innerHTML = `<p style="color:var(--text-secondary)">Failed to connect to skills server.</p>`;
     }
 }
 
@@ -246,8 +496,9 @@ async function loadSkills() {
 async function loadEduAndCerts() {
     const eduTimeline = document.getElementById("education-timeline");
     const certsGrid = document.getElementById("certifications-grid");
+    const bentoCertsGrid = document.getElementById("bento-certs-grid");
 
-    if (!eduTimeline && !certsGrid) return;
+    if (!eduTimeline && !certsGrid && !bentoCertsGrid) return;
 
     // Load Education
     if (eduTimeline) {
@@ -256,7 +507,7 @@ async function loadEduAndCerts() {
             const eduList = await eduRes.json();
             
             if (eduList.length === 0) {
-                eduTimeline.innerHTML = `<p style="color:var(--text-secondary)">No education items added yet.</p>`;
+                eduTimeline.innerHTML = `<p style="color:var(--text-secondary)">No education milestones published.</p>`;
             } else {
                 eduTimeline.innerHTML = "";
                 eduList.forEach(edu => {
@@ -277,28 +528,28 @@ async function loadEduAndCerts() {
             }
         } catch (err) {
             console.log("Error loading education:", err);
-            eduTimeline.innerHTML = `<p style="color:var(--text-secondary)">Failed to load education timeline.</p>`;
+            eduTimeline.innerHTML = `<p style="color:var(--text-secondary)">Failed to load academic records.</p>`;
         }
     }
 
-    // Load Certifications
+    // Load Certifications Grid (Subpage)
     if (certsGrid) {
         try {
             const certRes = await fetch(`${BASE_URL}/api/certifications`);
             const certList = await certRes.json();
             
             if (certList.length === 0) {
-                certsGrid.innerHTML = `<p style="color:var(--text-secondary); grid-column:1/-1;">No certifications added yet.</p>`;
+                certsGrid.innerHTML = `<p style="color:var(--text-secondary); grid-column:1/-1;">No certifications found.</p>`;
             } else {
                 certsGrid.innerHTML = "";
                 certList.forEach(cert => {
                     const card = document.createElement("div");
                     card.className = "cert-card";
                     card.innerHTML = `
-                        <div class="cert-icon"><i class="fas fa-ribbon"></i></div>
+                        <div class="cert-icon"><i class="fas fa-certificate"></i></div>
                         <h3>${cert.title}</h3>
                         <div class="cert-issuer">${cert.issuer}</div>
-                        <div class="cert-year">Completed: ${cert.year || 'N/A'}</div>
+                        <div class="cert-year">Issued: ${cert.year || 'N/A'}</div>
                         ${cert.link ? `<a href="${cert.link}" target="_blank" class="cert-link">Verify Credential <i class="fas fa-external-link-alt" style="font-size:0.75rem;"></i></a>` : ""}
                     `;
                     certsGrid.appendChild(card);
@@ -306,7 +557,36 @@ async function loadEduAndCerts() {
             }
         } catch (err) {
             console.log("Error loading certifications:", err);
-            certsGrid.innerHTML = `<p style="color:var(--text-secondary); grid-column:1/-1;">Failed to load certifications.</p>`;
+            certsGrid.innerHTML = `<p style="color:var(--text-secondary); grid-column:1/-1;">Failed to load credentials catalog.</p>`;
+        }
+    }
+
+    // Load Bento Certifications Slider (Homepage Bento Grid)
+    if (bentoCertsGrid) {
+        try {
+            const certRes = await fetch(`${BASE_URL}/api/certifications`);
+            const certList = await certRes.json();
+            
+            if (certList.length === 0) {
+                bentoCertsGrid.innerHTML = `<p style="color:var(--text-secondary); grid-column:1/-1;">No credentials published.</p>`;
+            } else {
+                bentoCertsGrid.innerHTML = "";
+                certList.slice(0, 4).forEach(cert => {
+                    const box = document.createElement("div");
+                    box.className = "bento-cert-card";
+                    box.innerHTML = `
+                        <div class="bento-cert-icon"><i class="fas fa-award"></i></div>
+                        <div class="bento-cert-info">
+                            <h4>${cert.title}</h4>
+                            <span>${cert.issuer} • ${cert.year}</span>
+                        </div>
+                    `;
+                    bentoCertsGrid.appendChild(box);
+                });
+            }
+        } catch (err) {
+            console.log("Bento credentials slider failed:", err);
+            bentoCertsGrid.innerHTML = `<p style="color:var(--text-secondary); grid-column:1/-1;">Credentials loader offline.</p>`;
         }
     }
 }
@@ -413,10 +693,8 @@ function setupDashboardTabs() {
 }
 
 async function loadDashboardData() {
-    // 1. Fetch Stats
     try {
         const stats = {
-            visits: 0,
             projects: 0,
             skills: 0,
             certs: 0,
@@ -426,7 +704,7 @@ async function loadDashboardData() {
         const settingsRes = await fetch(`${BASE_URL}/api/settings`);
         if (settingsRes.ok) {
             const set = await settingsRes.json();
-            stats.visits = set.visitorCount || 0;
+            
             // Populate Settings Forms
             document.getElementById("profileNameInput").value = set.name || "";
             document.getElementById("profileTitleInput").value = set.title || "";
@@ -437,6 +715,15 @@ async function loadDashboardData() {
             document.getElementById("profileGithubInput").value = set.githubUrl || "";
             document.getElementById("profileLinkedinInput").value = set.linkedinUrl || "";
             document.getElementById("profileEmailInput").value = set.emailUrl || "";
+            
+            // Bento Settings inputs
+            document.getElementById("profileCgpaInput").value = set.cgpa || "9.1";
+            document.getElementById("profileProjectsCountInput").value = set.projectsCount || 12;
+            document.getElementById("profileCertsCountInput").value = set.certsCount || 15;
+            document.getElementById("profileSolvedCountInput").value = set.problemsSolved || 500;
+            document.getElementById("profileStrengthsInput").value = set.strengths || "";
+            document.getElementById("profileObjectiveInput").value = set.objective || "";
+
             if (set.profileImage) {
                 const preview = document.getElementById("profile-img-preview");
                 preview.innerHTML = `<img src="${set.profileImage}">`;
@@ -477,8 +764,7 @@ async function loadDashboardData() {
             renderDashMessagesList(list);
         }
 
-        // Bind numbers to dashboard UI
-        document.getElementById("stat-visits").textContent = stats.visits;
+        // Bind stats numbers to dashboard UI
         document.getElementById("stat-projects").textContent = stats.projects;
         document.getElementById("stat-skills").textContent = stats.skills;
         document.getElementById("stat-certs").textContent = stats.certs;
@@ -542,7 +828,14 @@ function setupDashboardForms() {
                 resumeUrl: document.getElementById("profileResumeInput").value,
                 githubUrl: document.getElementById("profileGithubInput").value,
                 linkedinUrl: document.getElementById("profileLinkedinInput").value,
-                emailUrl: document.getElementById("profileEmailInput").value
+                emailUrl: document.getElementById("profileEmailInput").value,
+                // Bento specs
+                cgpa: document.getElementById("profileCgpaInput").value,
+                projectsCount: Number(document.getElementById("profileProjectsCountInput").value),
+                certsCount: Number(document.getElementById("profileCertsCountInput").value),
+                problemsSolved: Number(document.getElementById("profileSolvedCountInput").value),
+                strengths: document.getElementById("profileStrengthsInput").value,
+                objective: document.getElementById("profileObjectiveInput").value
             };
             
             try {
@@ -990,25 +1283,6 @@ function openEditSkill(id, name, level, category) {
     openModal("editSkillModal");
 }
 
-function openEditCert(id, title, issuer, year, link) {
-    document.getElementById("editCertId").value = id;
-    document.getElementById("editCertTitle").value = title;
-    document.getElementById("editCertIssuer").value = issuer;
-    document.getElementById("editCertYear").value = year;
-    document.getElementById("editCertLink").value = link;
-    openModal("editCertModal");
-}
-
-function openEditEdu(id, degree, inst, year, gpa, details) {
-    document.getElementById("editEduId").value = id;
-    document.getElementById("editEduDegree").value = degree;
-    document.getElementById("editEduInstitution").value = inst;
-    document.getElementById("editEduYear").value = year;
-    document.getElementById("editEduGPA").value = gpa;
-    document.getElementById("editEduDetails").value = details;
-    openModal("editEduModal");
-}
-
 // Global Delete Action
 async function deleteItem(type, id) {
     if (!confirm(`Are you sure you want to delete this from ${type}?`)) return;
@@ -1040,8 +1314,42 @@ function escapeHtml(str) {
          .replace(/'/g, "&#039;");
 }
 
+// ================= PASSWORD VISIBILITY TOGGLE =================
+function setupPasswordToggles() {
+    const toggles = [
+        { btnId: "toggleLoginPassword", inputId: "password" },
+        { btnId: "toggleCurrentPW", inputId: "currentPasswordInput" },
+        { btnId: "toggleNewPW", inputId: "newPasswordInput" },
+        { btnId: "toggleConfirmPW", inputId: "confirmPasswordInput" }
+    ];
+
+    toggles.forEach(toggle => {
+        const btn = document.getElementById(toggle.btnId);
+        const input = document.getElementById(toggle.inputId);
+        
+        if (btn && input) {
+            btn.addEventListener("click", () => {
+                const type = input.getAttribute("type") === "password" ? "text" : "password";
+                input.setAttribute("type", type);
+                
+                if (type === "password") {
+                    btn.classList.remove("fa-eye");
+                    btn.classList.add("fa-eye-slash");
+                } else {
+                    btn.classList.remove("fa-eye-slash");
+                    btn.classList.add("fa-eye");
+                }
+            });
+        }
+    });
+}
+
 // ================= BOOTSTRAP INITIALIZERS =================
+initStarfield();
+initRoleCarousel();
+initGithubHeatmap();
 loadHomeSettings();
 loadProjects();
 loadSkills();
 loadEduAndCerts();
+setupPasswordToggles();

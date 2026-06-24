@@ -17,6 +17,7 @@
       <li><a href="index.html">Home</a></li>
       <li><a href="projects.html">Projects</a></li>
       <li><a href="skills.html">Skills</a></li>
+      <li><a href="education.html">Education</a></li>
       <li><a href="certifications.html">Certifications</a></li>
       <li><a href="contact.html">Contact</a></li>
     </ul>
@@ -47,12 +48,7 @@
       <div id="analytics-panel" class="dash-panel active">
         <div class="panel-header">
           <h2>Overview Analytics</h2>
-        </div>
         <div class="stats-grid">
-          <div class="stat-card">
-            <div id="stat-visits" class="stat-number">0</div>
-            <div class="stat-label">Total Visits</div>
-          </div>
           <div class="stat-card">
             <div id="stat-projects" class="stat-number">0</div>
             <div class="stat-label">Projects</div>
@@ -127,23 +123,51 @@
             <label for="profileEmailInput">Contact Email</label>
             <input type="text" id="profileEmailInput">
           </div>
+          <!-- BENTO STATS -->
+          <div class="form-group">
+            <label for="profileCgpaInput">CGPA</label>
+            <input type="text" id="profileCgpaInput" placeholder="9.1">
+          </div>
+          <div class="form-group">
+            <label for="profileProjectsCountInput">Projects Count</label>
+            <input type="number" id="profileProjectsCountInput" placeholder="12">
+          </div>
+          <div class="form-group">
+            <label for="profileCertsCountInput">Certifications Count</label>
+            <input type="number" id="profileCertsCountInput" placeholder="15">
+          </div>
+          <div class="form-group">
+            <label for="profileSolvedCountInput">Coding Problems Solved</label>
+            <input type="number" id="profileSolvedCountInput" placeholder="500">
+          </div>
+          <div class="form-group span-2">
+            <label for="profileStrengthsInput">Core Strengths (Comma-separated)</label>
+            <input type="text" id="profileStrengthsInput" placeholder="Machine Learning, Data Science, SQL">
+          </div>
+          <div class="form-group span-2">
+            <label for="profileObjectiveInput">Career Objective</label>
+            <textarea id="profileObjectiveInput" rows="3" placeholder="Objective text..."></textarea>
+          </div>
           <button type="submit">Save General Changes <i class="fas fa-save" style="margin-left: 8px;"></i></button>
         </form>
 
         <!-- CHANGE PASSWORD FORM -->
         <h3 style="margin-top: 40px; margin-bottom: 15px; padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.05);">Change Password</h3>
         <form id="dashPasswordForm" class="dash-form" style="grid-template-columns: 1fr 1fr;">
-          <div class="form-group span-2">
+          <div class="form-group span-2" style="position: relative;">
             <label for="currentPasswordInput">Current Password</label>
-            <input type="password" id="currentPasswordInput" required>
+            <input type="password" id="currentPasswordInput" required style="padding-right: 40px;">
+            <i class="fas fa-eye-slash" id="toggleCurrentPW" style="position: absolute; right: 15px; top: 38px; cursor: pointer; color: var(--text-secondary); transition: var(--transition-smooth);"></i>
           </div>
-          <div class="form-group">
+          <div class="form-group" style="position: relative;">
             <label for="newPasswordInput">New Password</label>
-            <input type="password" id="newPasswordInput" minlength="6" required>
+            <input type="password" id="newPasswordInput" minlength="6" required style="padding-right: 40px;">
+            <i class="fas fa-eye-slash" id="toggleNewPW" style="position: absolute; right: 15px; top: 38px; cursor: pointer; color: var(--text-secondary); transition: var(--transition-smooth);"></i>
           </div>
-          <div class="form-group">
+          <div class="form-group" style="position: relative;">
             <label for="confirmPasswordInput">Confirm New Password</label>
-            <input type="password" id="confirmPasswordInput" minlength="6" required>
+            <input type="password" id="confirmPasswordInput" minlength="6" required style="padding-right: 40px;">
+            <i class="fas fa-eye-slash" id="toggleConfirmPW" style="position: absolute; right: 15px; top: 38px; cursor: pointer; color: var(--text-secondary); transition: var(--transition-smooth);"></i>
           </div>
           <button type="submit" style="grid-column: span 2; padding: 12px; background: var(--accent-pink); color: #000; border: none; font-weight: 700; border-radius: 8px; cursor: pointer; transition: var(--transition-smooth);">Update Password <i class="fas fa-key" style="margin-left: 8px;"></i></button>
         </form>
