@@ -17,7 +17,17 @@ const settingsSchema = new mongoose.Schema({
   certsCount: { type: Number, default: 15 },
   problemsSolved: { type: Number, default: 500 },
   strengths: { type: String, default: "Machine Learning, Deep Learning, Statistical Analysis, Data Engineering" },
-  objective: { type: String, default: "To leverage data-driven analytics and statistical models to deliver scalable business solutions..." }
+  objective: { type: String, default: "To leverage data-driven analytics and statistical models to deliver scalable business solutions..." },
+  // Coding profiles URLs
+  leetcodeUrl: { type: String, default: "" },
+  geeksforgeeksUrl: { type: String, default: "" },
+  codechefUrl: { type: String, default: "" },
+  hackerrankUrl: { type: String, default: "" },
+  // Coding profiles solved counts
+  leetcodeSolved: { type: Number, default: 0 },
+  geeksforgeeksSolved: { type: Number, default: 0 },
+  codechefSolved: { type: Number, default: 0 },
+  hackerrankSolved: { type: Number, default: 0 }
 });
 
 module.exports = mongoose.model("Settings", settingsSchema);

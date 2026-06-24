@@ -46,7 +46,7 @@
       </div>
       
       <div class="hero-body-info">
-        <h1 class="glow-title">Hello, I'm <br><span id="profile-name" class="gradient-text">A. VISHNUVARDHAN REDDY</span></h1>
+        <h1 class="glow-title">Hello, I'm <br><span id="profile-name" class="gradient-text">A. VISHNUVARDHAN REDDY</span><span id="typing-cursor" class="role-cursor">|</span></h1>
         
         <!-- Animated Typing Role Switcher Carousel -->
         <div class="role-switcher-container">
@@ -171,35 +171,65 @@
       </div>
     </div>
 
-    <!-- WIDGET 5: GITHUB ANALYTICS HEATMAP (Spans 2 cols) -->
-    <div class="bento-card github-widget span-2-cols">
-      <h3 class="widget-title"><i class="fab fa-github-alt"></i> GitHub Activity Analytics</h3>
-      <div class="github-bento-layout">
-        <!-- Mock Heatmap grid -->
-        <div class="heatmap-wrapper">
-          <div class="heatmap-header">
-            <span>524 contributions in the last year</span>
-            <span class="heatmap-scale">Less <span class="box lv0"></span><span class="box lv1"></span><span class="box lv2"></span><span class="box lv3"></span><span class="box lv4"></span> More</span>
+    <!-- WIDGET 5: CODING PROFILES CONSOLE (Spans 2 cols) -->
+    <div class="bento-card coding-profiles-widget span-2-cols">
+      <h3 class="widget-title"><i class="fas fa-terminal"></i> Coding Profiles Console</h3>
+      <div class="coding-profiles-grid">
+        <!-- LeetCode Card -->
+        <a id="leetcode-link-card" href="#" target="_blank" class="coding-profile-card leetcode">
+          <div class="profile-card-glow"></div>
+          <div class="profile-card-content">
+            <div class="profile-icon-brand">
+              <i class="fas fa-code"></i>
+            </div>
+            <div class="profile-info-stat">
+              <h4 class="platform-title">LeetCode</h4>
+              <div class="profile-solved-num"><span id="leetcode-solved-count">0</span> <span class="solved-label">solved</span></div>
+            </div>
           </div>
-          <div class="github-heatmap-grid" id="github-heatmap">
-            <!-- Loaded dynamically in JS grid (53 cols, 7 rows) -->
+        </a>
+
+        <!-- GeeksforGeeks Card -->
+        <a id="gfg-link-card" href="#" target="_blank" class="coding-profile-card gfg">
+          <div class="profile-card-glow"></div>
+          <div class="profile-card-content">
+            <div class="profile-icon-brand">
+              <i class="fas fa-graduation-cap"></i>
+            </div>
+            <div class="profile-info-stat">
+              <h4 class="platform-title">GeeksforGeeks</h4>
+              <div class="profile-solved-num"><span id="gfg-solved-count">0</span> <span class="solved-label">solved</span></div>
+            </div>
           </div>
-        </div>
-        
-        <div class="github-stats-panel">
-          <div class="gh-stat-row">
-            <span>Pull Requests</span>
-            <strong>42</strong>
+        </a>
+
+        <!-- CodeChef Card -->
+        <a id="codechef-link-card" href="#" target="_blank" class="coding-profile-card codechef">
+          <div class="profile-card-glow"></div>
+          <div class="profile-card-content">
+            <div class="profile-icon-brand">
+              <i class="fas fa-utensils"></i>
+            </div>
+            <div class="profile-info-stat">
+              <h4 class="platform-title">CodeChef</h4>
+              <div class="profile-solved-num"><span id="codechef-solved-count">0</span> <span class="solved-label">solved</span></div>
+            </div>
           </div>
-          <div class="gh-stat-row">
-            <span>Total Commits</span>
-            <strong>389</strong>
+        </a>
+
+        <!-- HackerRank Card -->
+        <a id="hackerrank-link-card" href="#" target="_blank" class="coding-profile-card hackerrank">
+          <div class="profile-card-glow"></div>
+          <div class="profile-card-content">
+            <div class="profile-icon-brand">
+              <i class="fab fa-hackerrank"></i>
+            </div>
+            <div class="profile-info-stat">
+              <h4 class="platform-title">HackerRank</h4>
+              <div class="profile-solved-num"><span id="hackerrank-solved-count">0</span> <span class="solved-label">solved</span></div>
+            </div>
           </div>
-          <div class="gh-stat-row">
-            <span>Active Repos</span>
-            <strong>8</strong>
-          </div>
-        </div>
+        </a>
       </div>
     </div>
 

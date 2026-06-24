@@ -16,7 +16,15 @@ exports.getSettings = async (req, res) => {
         certsCount: 15,
         problemsSolved: 500,
         strengths: "Machine Learning, Deep Learning, Statistical Analysis, Data Engineering",
-        objective: "To leverage data-driven analytics and statistical models to deliver scalable business solutions..."
+        objective: "To leverage data-driven analytics and statistical models to deliver scalable business solutions...",
+        leetcodeUrl: "",
+        geeksforgeeksUrl: "",
+        codechefUrl: "",
+        hackerrankUrl: "",
+        leetcodeSolved: 0,
+        geeksforgeeksSolved: 0,
+        codechefSolved: 0,
+        hackerrankSolved: 0
       };
       
       for (const [key, value] of Object.entries(defaults)) {

@@ -10,6 +10,9 @@
 </head>
 <body class="dashboard-page">
 
+  <!-- Interactive Starfield Canvas Background -->
+  <canvas id="starfield-canvas"></canvas>
+
   <!-- NAVBAR -->
   <nav>
     <h2>Admin Panel</h2>
@@ -48,6 +51,7 @@
       <div id="analytics-panel" class="dash-panel active">
         <div class="panel-header">
           <h2>Overview Analytics</h2>
+        </div>
         <div class="stats-grid">
           <div class="stat-card">
             <div id="stat-projects" class="stat-number">0</div>
@@ -148,7 +152,51 @@
             <label for="profileObjectiveInput">Career Objective</label>
             <textarea id="profileObjectiveInput" rows="3" placeholder="Objective text..."></textarea>
           </div>
-          <button type="submit">Save General Changes <i class="fas fa-save" style="margin-left: 8px;"></i></button>
+          
+          <!-- CODING PROFILES CONSOLE INTEGRATION -->
+          <div class="form-group span-2" style="margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px;">
+            <h3 style="font-family: var(--font-display); font-size: 1.1rem; color: var(--accent-cyan); display: flex; align-items: center; gap: 8px;">
+              <i class="fas fa-terminal"></i> Coding Profiles Console Settings
+            </h3>
+          </div>
+          
+          <div class="form-group">
+            <label for="profileLeetcodeUrl">LeetCode Profile URL</label>
+            <input type="text" id="profileLeetcodeUrl" placeholder="https://leetcode.com/username/">
+          </div>
+          <div class="form-group">
+            <label for="profileLeetcodeSolved">LeetCode Solved Count</label>
+            <input type="number" id="profileLeetcodeSolved" placeholder="0">
+          </div>
+
+          <div class="form-group">
+            <label for="profileGfgUrl">GeeksforGeeks Profile URL</label>
+            <input type="text" id="profileGfgUrl" placeholder="https://auth.geeksforgeeks.org/user/username/">
+          </div>
+          <div class="form-group">
+            <label for="profileGfgSolved">GeeksforGeeks Solved Count</label>
+            <input type="number" id="profileGfgSolved" placeholder="0">
+          </div>
+
+          <div class="form-group">
+            <label for="profileCodechefUrl">CodeChef Profile URL</label>
+            <input type="text" id="profileCodechefUrl" placeholder="https://www.codechef.com/users/username">
+          </div>
+          <div class="form-group">
+            <label for="profileCodechefSolved">CodeChef Solved Count</label>
+            <input type="number" id="profileCodechefSolved" placeholder="0">
+          </div>
+
+          <div class="form-group">
+            <label for="profileHackerrankUrl">HackerRank Profile URL</label>
+            <input type="text" id="profileHackerrankUrl" placeholder="https://www.hackerrank.com/username">
+          </div>
+          <div class="form-group">
+            <label for="profileHackerrankSolved">HackerRank Solved Count</label>
+            <input type="number" id="profileHackerrankSolved" placeholder="0">
+          </div>
+          
+          <button type="submit" class="span-2" style="margin-top: 15px;">Save General Changes <i class="fas fa-save" style="margin-left: 8px;"></i></button>
         </form>
 
         <!-- CHANGE PASSWORD FORM -->
@@ -352,83 +400,6 @@
   </div>
 
   <!-- ===== MODALS FOR EDITING ===== -->
-  
-  <!-- Project Edit Modal -->
-  <div class="dash-modal" id="editProjectModal">
-    <div class="modal-content">
-      <span class="modal-close" onclick="closeModal('editProjectModal')">&times;</span>
-      <h2 style="margin-bottom:20px; border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:10px;">Edit Project</h2>
-      <form id="editProjectForm" class="dash-form">
-        <input type="hidden" id="editProjId">
-        <div class="form-group">
-          <label for="editProjTitle">Project Title</label>
-          <input type="text" id="editProjTitle" required>
-        </div>
-        <div class="form-group">
-          <label for="editProjCategory">Category</label>
-          <select id="editProjCategory" style="width:100%; padding:10px; background:#020617; border:1px solid #1e293b; border-radius:5px; color:white;">
-            <option value="Machine Learning">Machine Learning</option>
-            <option value="Data Analytics">Data Analytics</option>
-            <option value="Web Development">Web Development</option>
-          </select>
-        </div>
-        <div class="form-group span-2">
-          <label for="editProjDesc">Short Description</label>
-          <textarea id="editProjDesc" rows="3" required></textarea>
-        </div>
-        <div class="form-group">
-          <label for="editProjGithub">GitHub Link</label>
-          <input type="text" id="editProjGithub" required>
-        </div>
-        <div class="form-group">
-          <label for="editProjDemo">Demo Link</label>
-          <input type="text" id="editProjDemo">
-        </div>
-        <div class="form-group">
-          <label for="editProjTags">Key Tech Tags</label>
-          <input type="text" id="editProjTags">
-        </div>
-        <div class="form-group">
-          <label for="editProjImageFile">Change Photo (Auto-Base64)</label>
-          <input type="file" id="editProjImageFile" accept="image/*">
-          <div class="image-upload-preview" id="edit-proj-img-preview">
-            <span>No Image Selected</span>
-          </div>
-          <input type="hidden" id="editProjImageBase64">
-        </div>
-        <button type="submit" style="grid-column: span 2; padding:12px; background:var(--accent-cyan); border:none; border-radius:8px; font-weight:700;">Save Changes</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- Skill Edit Modal -->
-  <div class="dash-modal" id="editSkillModal">
-    <div class="modal-content">
-      <span class="modal-close" onclick="closeModal('editSkillModal')">&times;</span>
-      <h2 style="margin-bottom:20px; border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:10px;">Edit Skill</h2>
-      <form id="editSkillForm" class="dash-form">
-        <input type="hidden" id="editSkillId">
-        <div class="form-group">
-          <label for="editSkillName">Skill Name</label>
-          <input type="text" id="editSkillName" required>
-        </div>
-        <div class="form-group">
-          <label for="editSkillLevel">Proficiency Level (0-100%)</label>
-          <input type="number" id="editSkillLevel" min="0" max="100" required>
-        </div>
-        <div class="form-group span-2">
-          <label for="editSkillCategory">Skill Category</label>
-          <select id="editSkillCategory" style="width:100%; padding:10px; background:#020617; border:1px solid #1e293b; border-radius:5px; color:white;">
-            <option value="Programming Languages">Programming Languages</option>
-            <option value="Data Science & ML">Data Science & ML</option>
-            <option value="Web Technologies">Web Technologies</option>
-            <option value="Databases & Tools">Databases & Tools</option>
-          </select>
-        </div>
-        <button type="submit" style="grid-column: span 2; padding:12px; background:var(--accent-cyan); border:none; border-radius:8px; font-weight:700;">Save Changes</button>
-      </form>
-    </div>
-  </div>
 
   <!-- Certification Edit Modal -->
   <div class="dash-modal" id="editCertModal">

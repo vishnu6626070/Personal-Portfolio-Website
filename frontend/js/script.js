@@ -169,32 +169,48 @@ function animateRadialSkills(pythonLevel = 75, mlLevel = 70) {
     }
 }
 
-// ================= GITHUB GRAPH GENERATOR =================
-function initGithubHeatmap() {
-    const grid = document.getElementById("github-heatmap");
-    if (!grid) return;
+// ================= ADVANCED SAAS ANIMATIONS (3D TILT & MOUSE GLOW) =================
+function initAdvancedAnimations() {
+    const cards = document.querySelectorAll(".bento-card, .coding-profile-card, .skill-category-card, .project-glass-card, .timeline-content, .cert-card, .login-glass-box, .stat-bento-card");
     
-    grid.innerHTML = "";
-    const cellsCount = 35 * 7;
-    
-    for (let i = 0; i < cellsCount; i++) {
-        const cell = document.createElement("div");
-        cell.className = "heatmap-cell";
+    cards.forEach(card => {
+        card.addEventListener("mousemove", (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            card.style.setProperty("--mouse-x", `${x}px`);
+            card.style.setProperty("--mouse-y", `${y}px`);
+            
+            // 3D Parallax Tilt Effect
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const rotateX = ((y - centerY) / centerY) * -12; // Max 12 deg tilt
+            const rotateY = ((x - centerX) / centerX) * 12;
+            
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+        });
         
-        const rand = Math.random();
-        if (rand < 0.60) {
-            cell.className += " lv0";
-        } else if (rand < 0.80) {
-            cell.className += " lv1";
-        } else if (rand < 0.90) {
-            cell.className += " lv2";
-        } else if (rand < 0.96) {
-            cell.className += " lv3";
-        } else {
-            cell.className += " lv4";
-        }
-        grid.appendChild(cell);
-    }
+        card.addEventListener("mouseleave", () => {
+            card.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)";
+        });
+    });
+
+    // Scroll Reveal Intersection Observer
+    const revealElements = document.querySelectorAll(".bento-card, .skill-category-card, .project-glass-card, .timeline-item, .cert-card, .coding-profile-card");
+    
+    // Add default reveal style hidden
+    revealElements.forEach(el => el.classList.add("reveal-hidden"));
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("reveal-active");
+            }
+        });
+    }, { threshold: 0.08 });
+
+    revealElements.forEach(el => observer.observe(el));
 }
 
 // ================= STATS COUNT ANIMATION =================
@@ -328,6 +344,22 @@ async function loadHomeSettings() {
         if (contactEmailTxt) contactEmailTxt.textContent = settings.emailUrl || "not available";
         if (contactGithub) contactGithub.href = settings.githubUrl || "#";
         if (contactLinkedin) contactLinkedin.href = settings.linkedinUrl || "#";
+
+        // Coding Profiles Console binds
+        const leetcodeCard = document.getElementById("leetcode-link-card");
+        const gfgCard = document.getElementById("gfg-link-card");
+        const chefCard = document.getElementById("codechef-link-card");
+        const hrCard = document.getElementById("hackerrank-link-card");
+
+        if (leetcodeCard) leetcodeCard.href = settings.leetcodeUrl || "#";
+        if (gfgCard) gfgCard.href = settings.geeksforgeeksUrl || "#";
+        if (chefCard) chefCard.href = settings.codechefUrl || "#";
+        if (hrCard) hrCard.href = settings.hackerrankUrl || "#";
+
+        animateCount(document.getElementById("leetcode-solved-count"), 0, settings.leetcodeSolved || 0, 1.5, false);
+        animateCount(document.getElementById("gfg-solved-count"), 0, settings.geeksforgeeksSolved || 0, 1.5, false);
+        animateCount(document.getElementById("codechef-solved-count"), 0, settings.codechefSolved || 0, 1.5, false);
+        animateCount(document.getElementById("hackerrank-solved-count"), 0, settings.hackerrankSolved || 0, 1.5, false);
 
     } catch (err) {
         console.log("Error loading settings:", err);
@@ -724,6 +756,16 @@ async function loadDashboardData() {
             document.getElementById("profileStrengthsInput").value = set.strengths || "";
             document.getElementById("profileObjectiveInput").value = set.objective || "";
 
+            // Coding Profiles Console inputs
+            document.getElementById("profileLeetcodeUrl").value = set.leetcodeUrl || "";
+            document.getElementById("profileLeetcodeSolved").value = set.leetcodeSolved || 0;
+            document.getElementById("profileGfgUrl").value = set.geeksforgeeksUrl || "";
+            document.getElementById("profileGfgSolved").value = set.geeksforgeeksSolved || 0;
+            document.getElementById("profileCodechefUrl").value = set.codechefUrl || "";
+            document.getElementById("profileCodechefSolved").value = set.codechefSolved || 0;
+            document.getElementById("profileHackerrankUrl").value = set.hackerrankUrl || "";
+            document.getElementById("profileHackerrankSolved").value = set.hackerrankSolved || 0;
+
             if (set.profileImage) {
                 const preview = document.getElementById("profile-img-preview");
                 preview.innerHTML = `<img src="${set.profileImage}">`;
@@ -829,13 +871,21 @@ function setupDashboardForms() {
                 githubUrl: document.getElementById("profileGithubInput").value,
                 linkedinUrl: document.getElementById("profileLinkedinInput").value,
                 emailUrl: document.getElementById("profileEmailInput").value,
-                // Bento specs
                 cgpa: document.getElementById("profileCgpaInput").value,
                 projectsCount: Number(document.getElementById("profileProjectsCountInput").value),
                 certsCount: Number(document.getElementById("profileCertsCountInput").value),
                 problemsSolved: Number(document.getElementById("profileSolvedCountInput").value),
                 strengths: document.getElementById("profileStrengthsInput").value,
-                objective: document.getElementById("profileObjectiveInput").value
+                objective: document.getElementById("profileObjectiveInput").value,
+                // Coding Profiles
+                leetcodeUrl: document.getElementById("profileLeetcodeUrl").value,
+                leetcodeSolved: Number(document.getElementById("profileLeetcodeSolved").value),
+                geeksforgeeksUrl: document.getElementById("profileGfgUrl").value,
+                geeksforgeeksSolved: Number(document.getElementById("profileGfgSolved").value),
+                codechefUrl: document.getElementById("profileCodechefUrl").value,
+                codechefSolved: Number(document.getElementById("profileCodechefSolved").value),
+                hackerrankUrl: document.getElementById("profileHackerrankUrl").value,
+                hackerrankSolved: Number(document.getElementById("profileHackerrankSolved").value)
             };
             
             try {
@@ -926,40 +976,7 @@ function setupDashboardForms() {
         });
     }
 
-    // 3. Edit Project Modal Submit
-    const editProjForm = document.getElementById("editProjectForm");
-    if (editProjForm) {
-        editProjForm.addEventListener("submit", async (e) => {
-            e.preventDefault();
-            const id = document.getElementById("editProjId").value;
-            const body = {
-                title: document.getElementById("editProjTitle").value,
-                description: document.getElementById("editProjDesc").value,
-                github: document.getElementById("editProjGithub").value,
-                demo: document.getElementById("editProjDemo").value,
-                tags: document.getElementById("editProjTags").value,
-                category: document.getElementById("editProjCategory").value
-            };
-            
-            const imageBase64 = document.getElementById("editProjImageBase64").value;
-            if (imageBase64) body.image = imageBase64;
 
-            try {
-                const res = await fetch(`${BASE_URL}/api/projects/${id}`, {
-                    method: "PUT",
-                    headers: getAuthHeaders(),
-                    body: JSON.stringify(body)
-                });
-                if (res.ok) {
-                    alert("Project updated!");
-                    closeModal("editProjectModal");
-                    loadDashboardData();
-                }
-            } catch (err) {
-                alert("Failed to update project.");
-            }
-        });
-    }
 
     // 4. Add Skill Form
     const skillForm = document.getElementById("dashSkillForm");
@@ -989,34 +1006,7 @@ function setupDashboardForms() {
         });
     }
 
-    // 5. Edit Skill Modal Submit
-    const editSkillForm = document.getElementById("editSkillForm");
-    if (editSkillForm) {
-        editSkillForm.addEventListener("submit", async (e) => {
-            e.preventDefault();
-            const id = document.getElementById("editSkillId").value;
-            const body = {
-                name: document.getElementById("editSkillName").value,
-                level: Number(document.getElementById("editSkillLevel").value),
-                category: document.getElementById("editSkillCategory").value
-            };
 
-            try {
-                const res = await fetch(`${BASE_URL}/api/skills/${id}`, {
-                    method: "PUT",
-                    headers: getAuthHeaders(),
-                    body: JSON.stringify(body)
-                });
-                if (res.ok) {
-                    alert("Skill updated!");
-                    closeModal("editSkillModal");
-                    loadDashboardData();
-                }
-            } catch (err) {
-                alert("Failed to update skill.");
-            }
-        });
-    }
 
     // 6. Add Cert Form
     const certForm = document.getElementById("dashCertForm");
@@ -1153,7 +1143,6 @@ function renderDashProjectsList(projects) {
                 <span>Category: ${p.category}</span>
             </div>
             <div class="item-actions">
-                <button class="btn-edit" onclick="openEditProject('${p._id}', '${escapeHtml(p.title)}', '${escapeHtml(p.description)}', '${escapeHtml(p.github)}', '${escapeHtml(p.demo || '')}', '${escapeHtml(p.tags || '')}', '${p.category}')"><i class="fas fa-edit"></i> Edit</button>
                 <button class="btn-delete" onclick="deleteItem('projects', '${p._id}')"><i class="fas fa-trash-alt"></i> Delete</button>
             </div>
         `;
@@ -1174,7 +1163,6 @@ function renderDashSkillsList(skills) {
                 <span>Proficiency: ${s.level}% | Category: ${s.category}</span>
             </div>
             <div class="item-actions">
-                <button class="btn-edit" onclick="openEditSkill('${s._id}', '${escapeHtml(s.name)}', ${s.level}, '${escapeHtml(s.category)}')"><i class="fas fa-edit"></i> Edit</button>
                 <button class="btn-delete" onclick="deleteItem('skills', '${s._id}')"><i class="fas fa-trash-alt"></i> Delete</button>
             </div>
         `;
@@ -1261,27 +1249,7 @@ function closeModal(id) {
     document.getElementById(id).classList.remove("active");
 }
 
-// Edit Action Openers (populating modal forms)
-function openEditProject(id, title, desc, github, demo, tags, category) {
-    document.getElementById("editProjId").value = id;
-    document.getElementById("editProjTitle").value = title;
-    document.getElementById("editProjDesc").value = desc;
-    document.getElementById("editProjGithub").value = github;
-    document.getElementById("editProjDemo").value = demo;
-    document.getElementById("editProjTags").value = tags;
-    document.getElementById("editProjCategory").value = category;
-    document.getElementById("editProjImageBase64").value = "";
-    document.getElementById("edit-proj-img-preview").innerHTML = "<span>Modify Photo</span>";
-    openModal("editProjectModal");
-}
 
-function openEditSkill(id, name, level, category) {
-    document.getElementById("editSkillId").value = id;
-    document.getElementById("editSkillName").value = name;
-    document.getElementById("editSkillLevel").value = level;
-    document.getElementById("editSkillCategory").value = category;
-    openModal("editSkillModal");
-}
 
 // Global Delete Action
 async function deleteItem(type, id) {
@@ -1347,7 +1315,7 @@ function setupPasswordToggles() {
 // ================= BOOTSTRAP INITIALIZERS =================
 initStarfield();
 initRoleCarousel();
-initGithubHeatmap();
+initAdvancedAnimations();
 loadHomeSettings();
 loadProjects();
 loadSkills();

@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const path = require("path");
 const connectDB = require("./config/db");
 
 const projectRoutes = require("./routes/projectRoutes");
@@ -28,9 +29,7 @@ app.use("/api/certifications", certificationRoutes);
 app.use("/api/education", educationRoutes);
 app.use("/api", authRoutes);
 
-app.get("/", (req, res) => {
-  res.send("Portfolio API running");
-});
+app.use(express.static(path.join(__dirname, "../frontend")));
 
 const startServer = async () => {
   await connectDB();
