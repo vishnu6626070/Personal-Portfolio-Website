@@ -1545,4 +1545,8 @@ async function initApp() {
 }
 
 // Start the app
-document.addEventListener('DOMContentLoaded', initApp);
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initApp);
+} else {
+    initApp();
+}
