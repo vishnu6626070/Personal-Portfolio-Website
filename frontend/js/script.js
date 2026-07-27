@@ -430,10 +430,60 @@ function setupFilterListeners() {
         btn.addEventListener("click", (e) => {
             document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
             e.target.classList.add("active");
-            renderProjects(e.target.dataset.category);
+            renderProjects(e.target.getAttribute("data-category"));
         });
     });
 }
+
+// ================= FEATURED PROJECTS (HOME PAGE) =================
+async function loadHomeProjects() {
+    const container = document.getElementById("home-featured-projects");
+    if (!container) return;
+
+    try {
+        const response = await fetch(`${BASE_URL}/api/projects`);
+        const projects = await response.json();
+        
+        if (projects.length === 0) {
+            container.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: var(--text-secondary); padding: 40px;">No featured projects yet.</p>`;
+            return;
+        }
+
+        container.innerHTML = "";
+        // Take the first 3 projects
+        projects.slice(0, 3).forEach(proj => {
+            const card = document.createElement("div");
+            card.className = "project-bento-card";
+            card.style.padding = "0";
+            card.style.overflow = "hidden";
+            card.style.display = "flex";
+            card.style.flexDirection = "column";
+
+            const tagsHtml = proj.tags 
+                ? proj.tags.split(",").map(t => `<span>${t.trim()}</span>`).join("")
+                : "";
+
+            card.innerHTML = `
+                <img src="${proj.image || 'images/project-placeholder.jpg'}" onerror="this.src='https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=800'" style="width: 100%; height: 180px; object-fit: cover; border-bottom: 1px solid var(--border-static);">
+                <div style="padding: 20px; flex: 1; display: flex; flex-direction: column;">
+                    <div class="proj-badge">${proj.category}</div>
+                    <h4 style="margin-top: 10px;">${proj.title}</h4>
+                    <p style="margin-bottom: 15px;">${proj.description}</p>
+                    <div class="proj-tech">${tagsHtml}</div>
+                    <div class="proj-links" style="margin-top: auto; padding-top: 15px;">
+                        ${proj.github ? `<a href="${proj.github}" target="_blank" class="link-btn"><i class="fab fa-github"></i> Codebase</a>` : ""}
+                        ${proj.demo ? `<a href="${proj.demo}" target="_blank" class="link-btn active"><i class="fas fa-play"></i> Live Demo</a>` : ""}
+                    </div>
+                </div>
+            `;
+            container.appendChild(card);
+        });
+    } catch (err) {
+        console.log("Error loading featured projects:", err);
+        container.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: var(--text-secondary); padding: 40px;">Failed to load projects.</p>`;
+    }
+}
+
 
 // ================= SKILLS LISTING =================
 async function loadSkills() {
@@ -1317,6 +1367,7 @@ initStarfield();
 initRoleCarousel();
 initAdvancedAnimations();
 loadHomeSettings();
+loadHomeProjects();
 loadProjects();
 loadSkills();
 loadEduAndCerts();
