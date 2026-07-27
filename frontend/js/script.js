@@ -1,6 +1,7 @@
 // BASE URL - Dynamic lookup for development vs production Render environment
 const BASE_URL = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname === ""
-
+  ? "http://localhost:5000"
+  : "https://personal-portfolio-website-ttkw.onrender.com";
 
 // ================= CACHE MANAGER =================
 async function fetchWithCache(url, options = {}) {
@@ -36,8 +37,6 @@ function clearCache() {
         }
     });
 }
-  ? "http://localhost:5000"
-  : "https://personal-portfolio-website-ttkw.onrender.com";
 
 // Active Nav Link highlight on current page
 document.addEventListener("DOMContentLoaded", () => {
