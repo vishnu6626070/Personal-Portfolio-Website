@@ -1177,6 +1177,41 @@ function setupDashboardForms() {
             }
         });
     }
+
+    // 10. Edit Project Modal Submit
+    const editProjForm = document.getElementById("editProjForm");
+    if (editProjForm) {
+        editProjForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const id = document.getElementById("editProjId").value;
+            const body = {
+                title: document.getElementById("editProjTitle").value,
+                description: document.getElementById("editProjDesc").value,
+                category: document.getElementById("editProjCategory").value,
+                github: document.getElementById("editProjGithub").value,
+                demo: document.getElementById("editProjDemo").value,
+                tags: document.getElementById("editProjTags").value,
+                image: document.getElementById("editProjImageBase64").value
+            };
+
+            try {
+                const res = await fetch(`${BASE_URL}/api/projects/${id}`, {
+                    method: "PUT",
+                    headers: getAuthHeaders(),
+                    body: JSON.stringify(body)
+                });
+                if (res.ok) {
+                    alert("Project updated successfully!");
+                    closeModal("editProjModal");
+                    loadDashboardData();
+                } else {
+                    alert("Failed to update project.");
+                }
+            } catch (err) {
+                alert("Server connection failed.");
+            }
+        });
+    }
 }
 
 // Render Lists in Dashboard
@@ -1193,6 +1228,7 @@ function renderDashProjectsList(projects) {
                 <span>Category: ${p.category}</span>
             </div>
             <div class="item-actions">
+                <button class="btn-edit" onclick="openEditProject('${p._id}', '${escapeHtml(p.title)}', '${escapeHtml(p.description)}', '${escapeHtml(p.github || '')}', '${escapeHtml(p.demo || '')}', '${escapeHtml(p.tags || '')}', '${escapeHtml(p.category)}', '${escapeHtml(p.image || '')}')"><i class="fas fa-edit"></i> Edit</button>
                 <button class="btn-delete" onclick="deleteItem('projects', '${p._id}')"><i class="fas fa-trash-alt"></i> Delete</button>
             </div>
         `;
@@ -1299,7 +1335,46 @@ function closeModal(id) {
     document.getElementById(id).classList.remove("active");
 }
 
+// Edit Modal Openers
+window.openEditProject = function(id, title, desc, github, demo, tags, category, imageBase64) {
+    document.getElementById("editProjId").value = id;
+    document.getElementById("editProjTitle").value = title;
+    document.getElementById("editProjDesc").value = desc;
+    document.getElementById("editProjCategory").value = category || "Machine Learning";
+    document.getElementById("editProjGithub").value = github || "";
+    document.getElementById("editProjDemo").value = demo || "";
+    document.getElementById("editProjTags").value = tags || "";
+    document.getElementById("editProjImageBase64").value = imageBase64 || "";
+    if (imageBase64) {
+        document.getElementById("edit-proj-img-preview").innerHTML = `<img src="${imageBase64}">`;
+    } else {
+        document.getElementById("edit-proj-img-preview").innerHTML = `<span>Current Image</span>`;
+    }
+    openModal('editProjModal');
+};
 
+window.openEditCert = function(id, title, issuer, year, link) {
+    const el = document.getElementById("editCertId");
+    if (!el) return;
+    el.value = id;
+    document.getElementById("editCertTitle").value = title;
+    document.getElementById("editCertIssuer").value = issuer;
+    document.getElementById("editCertYear").value = year;
+    document.getElementById("editCertLink").value = link || "";
+    openModal('editCertModal');
+};
+
+window.openEditEdu = function(id, degree, institution, year, gpa, details) {
+    const el = document.getElementById("editEduId");
+    if (!el) return;
+    el.value = id;
+    document.getElementById("editEduDegree").value = degree;
+    document.getElementById("editEduInstitution").value = institution;
+    document.getElementById("editEduYear").value = year;
+    document.getElementById("editEduGPA").value = gpa || "";
+    document.getElementById("editEduDetails").value = details || "";
+    openModal('editEduModal');
+};
 
 // Global Delete Action
 async function deleteItem(type, id) {
@@ -1323,8 +1398,8 @@ async function deleteItem(type, id) {
 
 // Utility Escaping Helper
 function escapeHtml(str) {
-    if (!str) return '';
-    return str
+    if (str === null || str === undefined) return '';
+    return String(str)
          .replace(/&/g, "&amp;")
          .replace(/</g, "&lt;")
          .replace(/>/g, "&gt;")

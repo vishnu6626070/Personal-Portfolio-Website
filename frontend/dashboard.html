@@ -401,6 +401,56 @@
 
   <!-- ===== MODALS FOR EDITING ===== -->
 
+  <!-- Project Edit Modal -->
+  <div class="dash-modal" id="editProjModal">
+    <div class="modal-content">
+      <span class="modal-close" onclick="closeModal('editProjModal')">&times;</span>
+      <h2 style="margin-bottom:20px; border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:10px;">Edit Project</h2>
+      <form id="editProjForm" class="dash-form">
+        <input type="hidden" id="editProjId">
+        <div class="form-group span-2">
+          <label for="editProjTitle">Project Title</label>
+          <input type="text" id="editProjTitle" required>
+        </div>
+        <div class="form-group span-2">
+          <label for="editProjDesc">Description / Details</label>
+          <textarea id="editProjDesc" rows="3" required></textarea>
+        </div>
+        <div class="form-group">
+          <label for="editProjCategory">Category</label>
+          <select id="editProjCategory">
+            <option value="Machine Learning">Machine Learning</option>
+            <option value="Data Analytics">Data Analytics</option>
+            <option value="Web Development">Web Development</option>
+            <option value="Deep Learning">Deep Learning</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="editProjGithub">GitHub Repository Link</label>
+          <input type="text" id="editProjGithub" required>
+        </div>
+        <div class="form-group">
+          <label for="editProjDemo">Demo Link (Optional)</label>
+          <input type="text" id="editProjDemo">
+        </div>
+        <div class="form-group">
+          <label for="editProjTags">Key Tech Tags (Comma-separated)</label>
+          <input type="text" id="editProjTags">
+        </div>
+        <div class="form-group span-2">
+          <label for="editProjImageFile">Update Project Screenshot (Optional)</label>
+          <input type="file" id="editProjImageFile" accept="image/*">
+          <div class="image-upload-preview" id="edit-proj-img-preview">
+            <span>Current Image</span>
+          </div>
+          <input type="hidden" id="editProjImageBase64">
+        </div>
+        <button type="submit" style="grid-column: span 2; padding:12px; background:var(--accent-cyan); border:none; border-radius:8px; font-weight:700;">Save Project Changes</button>
+      </form>
+    </div>
+  </div>
+
   <!-- Certification Edit Modal -->
   <div class="dash-modal" id="editCertModal">
     <div class="modal-content">
