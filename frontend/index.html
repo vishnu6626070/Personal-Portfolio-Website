@@ -10,6 +10,13 @@
 </head>
 <body class="home-page bento-layout">
 
+  <!-- GLOBAL LOADER -->
+  <div id="global-loader">
+    <div class="loader-spinner"></div>
+    <div class="loader-text">INITIALIZING</div>
+  </div>
+
+
   <!-- Interactive Starfield Canvas Background -->
   <canvas id="starfield-canvas"></canvas>
 
@@ -28,7 +35,7 @@
   </nav>
 
   <!-- MAIN BENTO DASHBOARD CONTAINER -->
-  <main class="bento-container">
+  <main class="bento-container content-fade-in">
 
     <!-- WIDGET 1: HERO CONTROL CENTER (Spans 2 cols, 2 rows) -->
     <div class="bento-card hero-widget span-2-cols span-2-rows">
@@ -36,7 +43,7 @@
         <!-- Floating Profile Image -->
         <div class="hero-avatar-wrapper">
           <div class="avatar-glow"></div>
-          <img id="profile-image" src="images/profiler.jfif" alt="Vishnu Avatar" onerror="this.src='https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=400'">
+          <img id="profile-image" loading="eager" src="images/profiler.jfif" alt="Vishnu Avatar" onerror="this.src='https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=400'">
         </div>
         <!-- Status Indicator -->
         <div class="status-indicator">
@@ -46,18 +53,16 @@
       </div>
       
       <div class="hero-body-info">
-        <h1 class="glow-title">Hello, I'm <br><span id="profile-name" class="gradient-text">A. VISHNUVARDHAN REDDY</span><span id="typing-cursor" class="role-cursor">|</span></h1>
+        <h1 class="glow-title">Hello, I'm <br><span id="profile-name" class="gradient-text"></span><span id="typing-cursor" class="role-cursor">|</span></h1>
         
         <!-- Animated Typing Role Switcher Carousel -->
         <div class="role-switcher-container">
           <span class="role-static">Active: </span>
-          <span id="role-carousel" class="role-dynamic">Data Science Student</span>
+          <span id="role-carousel" class="role-dynamic"></span>
           <span class="role-cursor">|</span>
         </div>
         
-        <p id="profile-bio" class="hero-brief-tagline">
-          Transforming tabular and unstructured datasets into production-grade Machine Learning pipelines.
-        </p>
+        <p id="profile-bio" class="hero-brief-tagline"></p>
 
         <!-- Social Console Buttons -->
         <div class="console-actions">
@@ -75,22 +80,22 @@
       <div class="stats-bento-grid">
         <div class="stat-bento-card">
           <span class="stat-icon"><i class="fas fa-graduation-cap"></i></span>
-          <div class="stat-value" id="stats-cgpa">9.1</div>
+          <div class="stat-value" id="stats-cgpa"></div>
           <div class="stat-label">Academic CGPA</div>
         </div>
         <div class="stat-bento-card">
           <span class="stat-icon"><i class="fas fa-folder-open"></i></span>
-          <div class="stat-value" id="stats-projects">12+</div>
+          <div class="stat-value" id="stats-projects"></div>
           <div class="stat-label">ML Projects</div>
         </div>
         <div class="stat-bento-card">
           <span class="stat-icon"><i class="fas fa-award"></i></span>
-          <div class="stat-value" id="stats-certs">15+</div>
+          <div class="stat-value" id="stats-certs"></div>
           <div class="stat-label">Certificates</div>
         </div>
         <div class="stat-bento-card">
           <span class="stat-icon"><i class="fas fa-code"></i></span>
-          <div class="stat-value" id="stats-solved">500+</div>
+          <div class="stat-value" id="stats-solved"></div>
           <div class="stat-label">Problems Solved</div>
         </div>
       </div>
@@ -101,22 +106,16 @@
       <h3 class="widget-title"><i class="fas fa-user-shield"></i> Profile & Strengths</h3>
       <div class="about-bento-layout">
         <div class="about-text-column">
-          <p id="profile-about">
-            Currently pursuing B.Tech in Data Science at Aditya University. Passionate about machine learning, statistical modeling, and full-stack web development.
-          </p>
+          <p id="profile-about"></p>
           <div class="career-objective-box">
             <h4><i class="fas fa-bullseye"></i> Career Objective</h4>
-            <p id="profile-objective">To leverage machine learning pipelines to solve production-level business problems...</p>
+            <p id="profile-objective"></p>
           </div>
         </div>
         <div class="strengths-column">
           <h4><i class="fas fa-bolt"></i> Core Strengths</h4>
           <div id="strengths-tags-container" class="strengths-tags">
             <!-- Loaded dynamically -->
-            <span class="strength-tag">Machine Learning</span>
-            <span class="strength-tag">Data Engineering</span>
-            <span class="strength-tag">Statistical Analysis</span>
-            <span class="strength-tag">SQL & Python</span>
           </div>
         </div>
       </div>

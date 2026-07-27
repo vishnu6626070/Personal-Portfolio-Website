@@ -1,5 +1,41 @@
 // BASE URL - Dynamic lookup for development vs production Render environment
 const BASE_URL = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.hostname === ""
+
+
+// ================= CACHE MANAGER =================
+async function fetchWithCache(url, options = {}) {
+    const isDashboard = window.location.pathname.includes("dashboard");
+    const canCache = (!options.method || options.method === "GET") && !options.headers && !isDashboard;
+    const cacheKey = `portfolio_cache_${url}`;
+    
+    if (canCache) {
+        const cached = sessionStorage.getItem(cacheKey);
+        if (cached) {
+            return {
+                ok: true,
+                json: async () => JSON.parse(cached)
+            };
+        }
+    }
+    
+    const response = await fetch(url, options);
+    
+    if (canCache && response.ok) {
+        const clone = response.clone();
+        const data = await clone.json();
+        sessionStorage.setItem(cacheKey, JSON.stringify(data));
+    }
+    
+    return response;
+}
+
+function clearCache() {
+    Object.keys(sessionStorage).forEach(key => {
+        if (key.startsWith("portfolio_cache_")) {
+            sessionStorage.removeItem(key);
+        }
+    });
+}
   ? "http://localhost:5000"
   : "https://personal-portfolio-website-ttkw.onrender.com";
 
@@ -280,7 +316,7 @@ async function loadHomeSettings() {
     const contactLinkedin = document.getElementById("contact-linkedin");
 
     try {
-        const response = await fetch(`${BASE_URL}/api/settings`);
+        const response = await fetchWithCache(`${BASE_URL}/api/settings`);
         if (!response.ok) return;
         const settings = await response.json();
 
@@ -362,7 +398,7 @@ async function loadHomeSettings() {
         animateCount(document.getElementById("hackerrank-solved-count"), 0, settings.hackerrankSolved || 0, 1.5, false);
 
     } catch (err) {
-        console.log("Error loading settings:", err);
+        console.error(err); throw err;
     }
 }
 
@@ -374,12 +410,12 @@ async function loadProjects() {
     if (!container) return;
 
     try {
-        const response = await fetch(`${BASE_URL}/api/projects`);
+        const response = await fetchWithCache(`${BASE_URL}/api/projects`);
         cachedProjects = await response.json();
         renderProjects("All");
         setupFilterListeners();
     } catch (err) {
-        console.log("Error loading projects:", err);
+        console.error(err); throw err;
         container.innerHTML = `<p style="color:var(--text-secondary)">Failed to connect to projects. Try starting local server!</p>`;
     }
 }
@@ -408,7 +444,7 @@ function renderProjects(categoryFilter) {
 
         card.innerHTML = `
             <div class="project-image-box">
-                <img src="${proj.image || 'images/project-placeholder.jpg'}" onerror="this.src='https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=800'">
+                <img src="${proj.image || 'images/project-placeholder.jpg'}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=800'">
                 <span class="project-category-tag">${proj.category}</span>
             </div>
             <div class="project-body">
@@ -441,7 +477,7 @@ async function loadHomeProjects() {
     if (!container) return;
 
     try {
-        const response = await fetch(`${BASE_URL}/api/projects`);
+        const response = await fetchWithCache(`${BASE_URL}/api/projects`);
         const projects = await response.json();
         
         if (projects.length === 0) {
@@ -464,7 +500,7 @@ async function loadHomeProjects() {
                 : "";
 
             card.innerHTML = `
-                <img src="${proj.image || 'images/project-placeholder.jpg'}" onerror="this.src='https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=800'" style="width: 100%; height: 180px; object-fit: cover; border-bottom: 1px solid var(--border-static);">
+                <img src="${proj.image || 'images/project-placeholder.jpg'}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=800'" style="width: 100%; height: 180px; object-fit: cover; border-bottom: 1px solid var(--border-static);">
                 <div style="padding: 20px; flex: 1; display: flex; flex-direction: column;">
                     <div class="proj-badge">${proj.category}</div>
                     <h4 style="margin-top: 10px;">${proj.title}</h4>
@@ -479,7 +515,7 @@ async function loadHomeProjects() {
             container.appendChild(card);
         });
     } catch (err) {
-        console.log("Error loading featured projects:", err);
+        console.error(err); throw err;
         container.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: var(--text-secondary); padding: 40px;">Failed to load projects.</p>`;
     }
 }
@@ -491,7 +527,7 @@ async function loadSkills() {
     if (!container) return;
 
     try {
-        const response = await fetch(`${BASE_URL}/api/skills`);
+        const response = await fetchWithCache(`${BASE_URL}/api/skills`);
         const skills = await response.json();
 
         // Extract values to sync with home dashboard radial gauges
@@ -569,7 +605,7 @@ async function loadSkills() {
         }, 100);
 
     } catch (err) {
-        console.log("Error loading skills:", err);
+        console.error(err); throw err;
         container.innerHTML = `<p style="color:var(--text-secondary)">Failed to connect to skills server.</p>`;
     }
 }
@@ -585,7 +621,7 @@ async function loadEduAndCerts() {
     // Load Education
     if (eduTimeline) {
         try {
-            const eduRes = await fetch(`${BASE_URL}/api/education`);
+            const eduRes = await fetchWithCache(`${BASE_URL}/api/education`);
             const eduList = await eduRes.json();
             
             if (eduList.length === 0) {
@@ -617,7 +653,7 @@ async function loadEduAndCerts() {
     // Load Certifications Grid (Subpage)
     if (certsGrid) {
         try {
-            const certRes = await fetch(`${BASE_URL}/api/certifications`);
+            const certRes = await fetchWithCache(`${BASE_URL}/api/certifications`);
             const certList = await certRes.json();
             
             if (certList.length === 0) {
@@ -646,7 +682,7 @@ async function loadEduAndCerts() {
     // Load Bento Certifications Slider (Homepage Bento Grid)
     if (bentoCertsGrid) {
         try {
-            const certRes = await fetch(`${BASE_URL}/api/certifications`);
+            const certRes = await fetchWithCache(`${BASE_URL}/api/certifications`);
             const certList = await certRes.json();
             
             if (certList.length === 0) {
@@ -684,7 +720,7 @@ if (contactForm) {
         const message = document.getElementById("message").value;
 
         try {
-            const response = await fetch(`${BASE_URL}/api/contact`, {
+            const response = await fetchWithCache(`${BASE_URL}/api/contact`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ name, email, message })
@@ -713,7 +749,7 @@ if (loginForm) {
         const password = document.getElementById("password").value;
 
         try {
-            const response = await fetch(`${BASE_URL}/api/login`, {
+            const response = await fetchWithCache(`${BASE_URL}/api/login`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email, password })
@@ -748,7 +784,8 @@ if (isDashboard) {
 
     // Initialize Dashboard Panels and Tabs
     setupDashboardTabs();
-    loadDashboardData();
+    clearCache();
+                    loadDashboardData();
     setupDashboardForms();
     setupDashboardUploads();
     
@@ -783,7 +820,7 @@ async function loadDashboardData() {
             messages: 0
         };
 
-        const settingsRes = await fetch(`${BASE_URL}/api/settings`);
+        const settingsRes = await fetchWithCache(`${BASE_URL}/api/settings`);
         if (settingsRes.ok) {
             const set = await settingsRes.json();
             
@@ -822,34 +859,34 @@ async function loadDashboardData() {
             }
         }
 
-        const projRes = await fetch(`${BASE_URL}/api/projects`);
+        const projRes = await fetchWithCache(`${BASE_URL}/api/projects`);
         if (projRes.ok) {
             const list = await projRes.json();
             stats.projects = list.length;
             renderDashProjectsList(list);
         }
 
-        const skillRes = await fetch(`${BASE_URL}/api/skills`);
+        const skillRes = await fetchWithCache(`${BASE_URL}/api/skills`);
         if (skillRes.ok) {
             const list = await skillRes.json();
             stats.skills = list.length;
             renderDashSkillsList(list);
         }
 
-        const certRes = await fetch(`${BASE_URL}/api/certifications`);
+        const certRes = await fetchWithCache(`${BASE_URL}/api/certifications`);
         if (certRes.ok) {
             const list = await certRes.json();
             stats.certs = list.length;
             renderDashCertsList(list);
         }
 
-        const eduRes = await fetch(`${BASE_URL}/api/education`);
+        const eduRes = await fetchWithCache(`${BASE_URL}/api/education`);
         if (eduRes.ok) {
             const list = await eduRes.json();
             renderDashEduList(list);
         }
 
-        const msgRes = await fetch(`${BASE_URL}/api/contact`, { headers: getAuthHeaders() });
+        const msgRes = await fetchWithCache(`${BASE_URL}/api/contact`, { headers: getAuthHeaders() });
         if (msgRes.ok) {
             const list = await msgRes.json();
             stats.messages = list.length;
@@ -939,13 +976,14 @@ function setupDashboardForms() {
             };
             
             try {
-                const res = await fetch(`${BASE_URL}/api/settings`, {
+                const res = await fetchWithCache(`${BASE_URL}/api/settings`, {
                     method: "PUT",
                     headers: getAuthHeaders(),
                     body: JSON.stringify(body)
                 });
                 if (res.ok) {
                     alert("Profile settings updated!");
+                    clearCache();
                     loadDashboardData();
                 } else {
                     alert("Error saving settings.");
@@ -971,7 +1009,7 @@ function setupDashboardForms() {
             }
 
             try {
-                const res = await fetch(`${BASE_URL}/api/change-password`, {
+                const res = await fetchWithCache(`${BASE_URL}/api/change-password`, {
                     method: "PUT",
                     headers: getAuthHeaders(),
                     body: JSON.stringify({ currentPassword, newPassword })
@@ -1006,7 +1044,7 @@ function setupDashboardForms() {
             };
 
             try {
-                const res = await fetch(`${BASE_URL}/api/projects`, {
+                const res = await fetchWithCache(`${BASE_URL}/api/projects`, {
                     method: "POST",
                     headers: getAuthHeaders(),
                     body: JSON.stringify(body)
@@ -1016,6 +1054,7 @@ function setupDashboardForms() {
                     projForm.reset();
                     document.getElementById("proj-img-preview").innerHTML = "<span>No Image Selected</span>";
                     document.getElementById("projImageBase64").value = "";
+                    clearCache();
                     loadDashboardData();
                 } else {
                     alert("Failed to save project.");
@@ -1040,7 +1079,7 @@ function setupDashboardForms() {
             };
 
             try {
-                const res = await fetch(`${BASE_URL}/api/skills`, {
+                const res = await fetchWithCache(`${BASE_URL}/api/skills`, {
                     method: "POST",
                     headers: getAuthHeaders(),
                     body: JSON.stringify(body)
@@ -1048,6 +1087,7 @@ function setupDashboardForms() {
                 if (res.ok) {
                     alert("Skill added!");
                     skillForm.reset();
+                    clearCache();
                     loadDashboardData();
                 }
             } catch (err) {
@@ -1071,7 +1111,7 @@ function setupDashboardForms() {
             };
 
             try {
-                const res = await fetch(`${BASE_URL}/api/certifications`, {
+                const res = await fetchWithCache(`${BASE_URL}/api/certifications`, {
                     method: "POST",
                     headers: getAuthHeaders(),
                     body: JSON.stringify(body)
@@ -1079,6 +1119,7 @@ function setupDashboardForms() {
                 if (res.ok) {
                     alert("Certification added!");
                     certForm.reset();
+                    clearCache();
                     loadDashboardData();
                 }
             } catch (err) {
@@ -1101,7 +1142,7 @@ function setupDashboardForms() {
             };
 
             try {
-                const res = await fetch(`${BASE_URL}/api/certifications/${id}`, {
+                const res = await fetchWithCache(`${BASE_URL}/api/certifications/${id}`, {
                     method: "PUT",
                     headers: getAuthHeaders(),
                     body: JSON.stringify(body)
@@ -1109,6 +1150,7 @@ function setupDashboardForms() {
                 if (res.ok) {
                     alert("Certification updated!");
                     closeModal("editCertModal");
+                    clearCache();
                     loadDashboardData();
                 }
             } catch (err) {
@@ -1131,7 +1173,7 @@ function setupDashboardForms() {
             };
 
             try {
-                const res = await fetch(`${BASE_URL}/api/education`, {
+                const res = await fetchWithCache(`${BASE_URL}/api/education`, {
                     method: "POST",
                     headers: getAuthHeaders(),
                     body: JSON.stringify(body)
@@ -1139,6 +1181,7 @@ function setupDashboardForms() {
                 if (res.ok) {
                     alert("Education milestone added!");
                     eduForm.reset();
+                    clearCache();
                     loadDashboardData();
                 }
             } catch (err) {
@@ -1162,7 +1205,7 @@ function setupDashboardForms() {
             };
 
             try {
-                const res = await fetch(`${BASE_URL}/api/education/${id}`, {
+                const res = await fetchWithCache(`${BASE_URL}/api/education/${id}`, {
                     method: "PUT",
                     headers: getAuthHeaders(),
                     body: JSON.stringify(body)
@@ -1170,6 +1213,7 @@ function setupDashboardForms() {
                 if (res.ok) {
                     alert("Education milestone updated!");
                     closeModal("editEduModal");
+                    clearCache();
                     loadDashboardData();
                 }
             } catch (err) {
@@ -1195,7 +1239,7 @@ function setupDashboardForms() {
             };
 
             try {
-                const res = await fetch(`${BASE_URL}/api/projects/${id}`, {
+                const res = await fetchWithCache(`${BASE_URL}/api/projects/${id}`, {
                     method: "PUT",
                     headers: getAuthHeaders(),
                     body: JSON.stringify(body)
@@ -1203,6 +1247,7 @@ function setupDashboardForms() {
                 if (res.ok) {
                     alert("Project updated successfully!");
                     closeModal("editProjModal");
+                    clearCache();
                     loadDashboardData();
                 } else {
                     alert("Failed to update project.");
@@ -1381,13 +1426,15 @@ async function deleteItem(type, id) {
     if (!confirm(`Are you sure you want to delete this from ${type}?`)) return;
     
     try {
-        const res = await fetch(`${BASE_URL}/api/${type}/${id}`, {
+        const res = await fetchWithCache(`${BASE_URL}/api/${type}/${id}`, {
             method: "DELETE",
             headers: getAuthHeaders()
         });
         if (res.ok) {
             alert("Deleted successfully!");
-            loadDashboardData();
+            clearCache();
+            clearCache();
+                    loadDashboardData();
         } else {
             alert("Failed to delete.");
         }
@@ -1437,13 +1484,65 @@ function setupPasswordToggles() {
     });
 }
 
+
 // ================= BOOTSTRAP INITIALIZERS =================
-initStarfield();
-initRoleCarousel();
-initAdvancedAnimations();
-loadHomeSettings();
-loadHomeProjects();
-loadProjects();
-loadSkills();
-loadEduAndCerts();
-setupPasswordToggles();
+async function initApp() {
+    const loader = document.getElementById("global-loader");
+    const mainContent = document.querySelector(".bento-container") || document.querySelector(".dash-container") || document.querySelector("section");
+    
+    try {
+        // Start independent initializers
+        initStarfield();
+        if (typeof initRoleCarousel === 'function') initRoleCarousel();
+        if (typeof initAdvancedAnimations === 'function') initAdvancedAnimations();
+        if (typeof setupPasswordToggles === 'function') setupPasswordToggles();
+
+        // Collect all data-loading promises based on the page context
+        const promises = [];
+        
+        // Settings are needed almost everywhere for navbar/footer
+        if (typeof loadHomeSettings === 'function' && document.getElementById('profile-name')) {
+            promises.push(loadHomeSettings());
+        }
+        
+        if (typeof loadHomeProjects === 'function' && document.getElementById('home-featured-projects')) {
+            promises.push(loadHomeProjects());
+        }
+        if (typeof loadProjects === 'function' && document.getElementById('projects')) {
+            promises.push(loadProjects());
+        }
+        if (typeof loadSkills === 'function' && document.getElementById('skills')) {
+            promises.push(loadSkills());
+        }
+        if (typeof loadEduAndCerts === 'function' && (document.getElementById('education') || document.getElementById('certifications'))) {
+            promises.push(loadEduAndCerts());
+        }
+        
+        // Wait for all necessary data to fetch and render
+        await Promise.all(promises);
+        
+        // Hide loader and reveal content smoothly
+        if (loader) {
+            loader.classList.add("hidden");
+            setTimeout(() => loader.style.display = 'none', 600); // Wait for transition
+        }
+        if (mainContent) {
+            mainContent.classList.add("visible");
+        }
+        
+    } catch (err) {
+        console.error("Critical error during app initialization:", err);
+        if (loader) {
+            loader.innerHTML = `
+                <div class="loader-error-state">
+                    <h2><i class="fas fa-exclamation-triangle"></i> Connection Error</h2>
+                    <p>Failed to load portfolio data from the server.</p>
+                    <button class="retry-btn" onclick="location.reload()"><i class="fas fa-sync"></i> Retry Connection</button>
+                </div>
+            `;
+        }
+    }
+}
+
+// Start the app
+document.addEventListener('DOMContentLoaded', initApp);
