@@ -1499,23 +1499,12 @@ async function initApp() {
         // Collect all data-loading promises based on the page context
         const promises = [];
         
-        // Settings are needed almost everywhere for navbar/footer
-        if (typeof loadHomeSettings === 'function' && document.getElementById('profile-name')) {
-            promises.push(loadHomeSettings());
-        }
-        
-        if (typeof loadHomeProjects === 'function' && document.getElementById('home-featured-projects')) {
-            promises.push(loadHomeProjects());
-        }
-        if (typeof loadProjects === 'function' && document.getElementById('projects')) {
-            promises.push(loadProjects());
-        }
-        if (typeof loadSkills === 'function' && document.getElementById('skills')) {
-            promises.push(loadSkills());
-        }
-        if (typeof loadEduAndCerts === 'function' && (document.getElementById('education') || document.getElementById('certifications'))) {
-            promises.push(loadEduAndCerts());
-        }
+        // Let the functions decide if they need to run based on their own internal container checks
+        if (typeof loadHomeSettings === 'function') promises.push(loadHomeSettings());
+        if (typeof loadHomeProjects === 'function') promises.push(loadHomeProjects());
+        if (typeof loadProjects === 'function') promises.push(loadProjects());
+        if (typeof loadSkills === 'function') promises.push(loadSkills());
+        if (typeof loadEduAndCerts === 'function') promises.push(loadEduAndCerts());
         
         // Wait for all necessary data to fetch and render
         await Promise.all(promises);
