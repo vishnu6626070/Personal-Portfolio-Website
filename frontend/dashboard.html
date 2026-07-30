@@ -119,8 +119,10 @@
             </div>
           </div>
           <div class="form-group">
-            <label for="profileResumeInput">Resume Link (Google Drive / Dropbox URL)</label>
-            <input type="text" id="profileResumeInput">
+            <label for="profileResumeInput">Resume PDF Upload (Max 7MB)</label>
+            <input type="file" id="profileResumeFile" accept="application/pdf">
+            <input type="hidden" id="profileResumeInput">
+            <div id="resume-upload-status" style="margin-top: 8px; font-size: 0.9rem; color: var(--accent);"></div>
           </div>
           <div class="form-group">
             <label for="profileGithubInput">GitHub Link</label>

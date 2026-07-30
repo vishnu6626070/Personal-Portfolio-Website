@@ -919,6 +919,27 @@ function setupDashboardUploads() {
         });
     }
 
+    const resFile = document.getElementById("profileResumeFile");
+    if (resFile) {
+        resFile.addEventListener("change", async (e) => {
+            if (e.target.files.length > 0) {
+                const file = e.target.files[0];
+                if (file.size > 7 * 1024 * 1024) {
+                    alert("File is too large (max 7MB).");
+                    resFile.value = "";
+                    return;
+                }
+                document.getElementById("resume-upload-status").innerText = "Processing PDF...";
+                const base64 = await convertFileToBase64(file);
+                document.getElementById("profileResumeInput").value = base64;
+                document.getElementById("resume-upload-status").innerText = "PDF attached! Don't forget to save changes.";
+            } else {
+                document.getElementById("profileResumeInput").value = "";
+                document.getElementById("resume-upload-status").innerText = "";
+            }
+        });
+    }
+
     if (projFile) {
         projFile.addEventListener("change", async (e) => {
             if (e.target.files.length > 0) {
